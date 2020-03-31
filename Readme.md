@@ -1,7 +1,7 @@
 # Личный проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Максим Непорада](https://up.htmlacademy.ru/ecmascript/11/user/601999).
-* Наставник: `Неизвестно`.
+* Наставник: [Валерий Кобзарь](https://htmlacademy.ru/profile/id1431125).
 
 ---
 
