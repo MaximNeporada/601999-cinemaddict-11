@@ -1,9 +1,12 @@
 "use strict";
 
-const FILMS_LIST_CARDS_COUNT = 5;
-const FILMS_LIST_EXTRA_CARDS_COUNT = 2;
-const FILMS_LIST_EXTRA_TITLES = [`Top rated`, `Most commented`];
+const FILMS_LIST = {
+  CARD_COUNT: 5,
+  EXTRA_CARDS_COUNT: 2,
+  EXTRA_TITLES: [`Top rated`, `Most commented`]
+};
 
+//  компонент Звание пользователя
 const createProfileTemplate = () => {
   return (
     `<section class="header__profile profile">
@@ -13,6 +16,7 @@ const createProfileTemplate = () => {
   );
 };
 
+//  компонент Меню (фильтры и статистика);
 const createMainNavigationTemplate = () => {
   return (
     `<nav class="main-navigation">
@@ -27,6 +31,7 @@ const createMainNavigationTemplate = () => {
   );
 };
 
+//  компонент Сортировка
 const createSortTemplate = () => {
   return (
     `<ul class="sort">
@@ -37,12 +42,14 @@ const createSortTemplate = () => {
   );
 };
 
+//  компонент секкция Фильм
 const createFilmsTemplate = () =>{
   return (
     `<section class="films"></section>`
   );
 };
 
+//  компонент Список фильмов
 const createFilmsListTemplate = () =>{
   return (
     `<section class="films-list">
@@ -53,6 +60,7 @@ const createFilmsListTemplate = () =>{
   );
 };
 
+//  компонент Карточка фильма
 const createFilmsCardTemplate = () =>{
   return (
     `<article class="film-card">
@@ -75,12 +83,14 @@ const createFilmsCardTemplate = () =>{
   );
 };
 
+//  компонент Кнопка "Show more"
 const createFilmsShowMoreTemplates = () => {
   return (
     `<button class="films-list__show-more">Show more</button>`
   );
 };
 
+//  компонент дополнительных блоков «Top rated» и «Most commented»
 const createFilmsListExtra = (title) => {
   return (
     `<section class="films-list--extra">
@@ -91,6 +101,7 @@ const createFilmsListExtra = (title) => {
   );
 };
 
+// компонент Подробной информации о фильме (попап)
 const createFilmDetailTemplate = () => {
   return (
     `<section class="film-details">
@@ -265,7 +276,7 @@ const createFilmDetailTemplate = () => {
   );
 };
 
-
+// функция для рендеринга
 const render = (container, template, place = `beforeend`) => {
   container.insertAdjacentHTML(place, template);
 };
@@ -285,24 +296,26 @@ render(siteFilmsElement, createFilmsListTemplate());
 const siteFilmsListElement = siteFilmsElement.querySelector(`.films-list`);
 const siteFilmsListContainerElement = siteFilmsElement.querySelector(`.films-list__container`);
 
-for (let i = 0; i < FILMS_LIST_CARDS_COUNT; i++) {
+for (let i = 0; i < FILMS_LIST.CARD_COUNT; i++) {
   render(siteFilmsListContainerElement, createFilmsCardTemplate());
 }
 
 render(siteFilmsListElement, createFilmsShowMoreTemplates());
 
-for (let i = 0; i < FILMS_LIST_EXTRA_TITLES.length; i++) {
-  render(siteFilmsElement, createFilmsListExtra(FILMS_LIST_EXTRA_TITLES[i]));
-}
+// рендер блоков «Top rated» и «Most commented»
+FILMS_LIST.EXTRA_TITLES.forEach((title) => {
+  render(siteFilmsElement, createFilmsListExtra(title));
+});
 
 const siteFilmsExtraElements = siteFilmsElement.querySelectorAll(`.films-list--extra`);
 
-for (let i = 0; i < siteFilmsExtraElements.length; i++) {
-  const siteFilmsExtraContainerElement = siteFilmsExtraElements[i].querySelector(`.films-list__container`);
-  for (let j = 0; j < FILMS_LIST_EXTRA_CARDS_COUNT; j++) {
-    render(siteFilmsExtraContainerElement, createFilmsCardTemplate());
+// рендер карточек фильмов в блоки «Top rated» и «Most commented»
+siteFilmsExtraElements.forEach((filmsExtraElement) => {
+  const FilmExtraContainerElement = filmsExtraElement.querySelector(`.films-list__container`);
+  for (let j = 0; j < FILMS_LIST.EXTRA_CARDS_COUNT; j++) {
+    render(FilmExtraContainerElement, createFilmsCardTemplate());
   }
-}
+});
 
 const siteFooterElement = document.querySelector(`.footer`);
 
