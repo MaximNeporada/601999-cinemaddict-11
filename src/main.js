@@ -1,5 +1,5 @@
-import {createProfileTemplate} from 'components/profile';
-import {createMainNavigationTemplate} from 'components/main-navigation';
+import {createProfileTemplate} from './components/profile.js';
+import {createMainNavigationTemplate} from './components/main-navigation';
 import {createSortTemplate} from "./components/srot";
 import {createFilmsTemplate} from "./components/films";
 import {createFilmsListTemplate} from "./components/films-list";
