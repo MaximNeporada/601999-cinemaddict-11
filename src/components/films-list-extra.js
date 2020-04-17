@@ -1,5 +1,6 @@
 //  компонент дополнительных блоков «Top rated» и «Most commented»
-export const createFilmsListExtra = (title) => {
+const createFilmsListExtra = (item) => {
+  const {title} = item;
   return (
     `<section class="films-list--extra">
       <h2 class="films-list__title">${title}</h2>
@@ -8,3 +9,5 @@ export const createFilmsListExtra = (title) => {
     </section>`
   );
 };
+
+export {createFilmsListExtra};
