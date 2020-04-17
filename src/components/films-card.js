@@ -23,7 +23,7 @@ const controlButtonMarkup = (conrolButton, isChecked) => {
 
 const createFilmsCardTemplate = (film) =>{
   const {name, rating, releaseDate, runTime, genres, poster, comments, description, isWatchList, isWatched, isFavorite} = film;
-  const releaseDateFormat = new Date(releaseDate)
+  const releaseDateFormat = new Date(releaseDate);
   const releaseYear = releaseDateFormat.getFullYear();
   const shortDescription = getShortDescription(description);
   return (
