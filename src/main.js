@@ -1,13 +1,15 @@
 import {createProfileTemplate} from './components/profile.js';
 import {createMainNavigationTemplate} from './components/main-navigation';
 import {createSortTemplate} from "./components/sort";
+
 import {createFilmsTemplate} from "./components/films";
 import {createFilmsListTemplate} from "./components/films-list";
-import {createFilmsCardTemplate} from "./components/films-card";
-import {createFilmsShowMoreTemplates} from "./components/button-show-more";
 import {createFilmsListExtra} from "./components/films-list-extra";
+import {createFilmsCardTemplate} from "./components/films-card";
 import {createFilmDetailTemplate} from "./components/films-detail";
-import {getMaxNumberOfKey, getRandomInteger} from "./utils";
+import {createFilmsShowMoreTemplates} from "./components/button-show-more";
+
+import {getTop2FilmsByRaiting, getTop2FilmsByComments, getRandomInteger} from "./utils";
 
 import {generateFilms} from "./mock/film-cards";
 import {generateFilters} from "./mock/filter";
@@ -16,20 +18,14 @@ const FILMS_LIST = {
   CARD_COUNT: 15,
   CARD_COUNT_ON_START: 5,
   SHOWING_COUNT_BY_BUTTON: 5,
-  EXTRA_CARDS_COUNT: 2,
-  EXTRA: [
-    {
-      title: `Top rated`,
-      cardCount: 2,
-      keyFind: `rating`
-    },
-    {
-      title: `Most commented`,
-      cardCount: 2,
-      keyFind: `comments`
-    },
-  ],
-
+  TOP_RATING: {
+    title: `Top rated`,
+    id: `top-rating`
+  },
+  TOP_COMMENTS: {
+    title: `Most commented`,
+    id: `top-comments`,
+  },
 };
 
 const films = generateFilms(FILMS_LIST.CARD_COUNT);
@@ -86,17 +82,21 @@ loadMoreButton.addEventListener(`click`, () => {
   }
 });
 
-// // рендер блоков «Top rated» и «Most commented»
-FILMS_LIST.EXTRA.forEach((item, index) => {
-  render(siteFilmsElement, createFilmsListExtra(item));
+// // рендер блоков «Top rated»
+render(siteFilmsElement, createFilmsListExtra(FILMS_LIST.TOP_RATING));
+const siteFilmsExtraRating = siteFilmsElement.querySelector(`[data-id-section="${FILMS_LIST.TOP_RATING.id}"] .films-list__container`);
+const topRatingFilms = getTop2FilmsByRaiting(films);
+topRatingFilms.forEach((film) => {
+  render(siteFilmsExtraRating, createFilmsCardTemplate(film));
+});
 
-  const siteFilmsExtraItem = siteFilmsElement.querySelectorAll(`.films-list--extra`);
-  const filmsExtraContainerElement = siteFilmsExtraItem[index].querySelector(`.films-list__container`);
-  const mostFilms = getMaxNumberOfKey(films, item.keyFind, item.cardCount);
 
-  mostFilms.forEach((film) => {
-    render(filmsExtraContainerElement, createFilmsCardTemplate(film));
-  });
+// // рендер блоков «Top Comments»
+render(siteFilmsElement, createFilmsListExtra(FILMS_LIST.TOP_COMMENTS));
+const siteFilmsExtraComment = siteFilmsElement.querySelector(`[data-id-section="${FILMS_LIST.TOP_COMMENTS.id}"] .films-list__container`);
+const topCommentFilms = getTop2FilmsByComments(films);
+topCommentFilms.forEach((film) => {
+  render(siteFilmsExtraComment, createFilmsCardTemplate(film));
 });
 
 // рендер футера

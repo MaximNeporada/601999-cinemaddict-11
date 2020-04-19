@@ -39,9 +39,9 @@ const getRandomArray = (arr, lengthNewArr) => {
   return newArr;
 };
 
-// функция возвращает строку 99
+// функция возвращает принимает число и возвращает строку из двух цифр, к пример пришло 9 возвращает 09;
 const castTimeFormat = (value) => {
-  return value.padStart(2, `0`);
+  return String(value).padStart(2, `0`);
 };
 
 // функция возврощает строку Даты в формате MM-DD-YYYY и валидирует на высокосный год и февраль для создания даты
@@ -65,24 +65,31 @@ const getStringArray = (arr, symbolConcat = `, `) => {
   }, ``);
 };
 
-// функция нахождения максимального значения
-const getMaxNumberOfKey = (array, keyFind, countElements = 1) => {
-  const newArray = [...array];
-  const isArray = Array.isArray(newArray[0][keyFind]);
-  let sortArray = newArray.sort((firstItem, secondItem) => {
-    let firstItemInt;
-    let secondItemInt;
-    if (isArray) {
-      firstItemInt = firstItem[keyFind].length;
-      secondItemInt = secondItem[keyFind].length;
-    } else {
-      firstItemInt = parseFloat(firstItem[keyFind]);
-      secondItemInt = parseFloat(secondItem[keyFind]);
-    }
-
-    return firstItemInt - secondItemInt;
+// функция нахождения топ 2 фильма по рейтингу
+// принимает список фильмов, возвращает список из 2 фильмов
+const getTop2FilmsByRaiting = (arrayFilms) => {
+  const newArrayFilms = [...arrayFilms];
+  // сортировка списка фильмов по рейтингу от меньшего к большему
+  let sortArrayFilmsRaiting = newArrayFilms.sort( (firstItem, secondItem) => {
+    return parseFloat(firstItem.rating) - parseFloat(secondItem.rating);
   });
-  return sortArray.splice(sortArray.length - countElements, sortArray.length);
+
+  return sortArrayFilmsRaiting.splice(newArrayFilms.length - 2, newArrayFilms.length);
+};
+
+
+// функция нахождения топ 2 фильма по количеству комментариев
+// принимает список фильмов, возвращает список из 2 фильмов
+const getTop2FilmsByComments = (arrayFilms) => {
+  const newArrayFilms = [...arrayFilms];
+  // сортировка списка фильмов по рейтингу от меньшего к большему
+  let sortArrayFilmsСcomments = newArrayFilms.sort( (firstItem, secondItem) => {
+    const countCommentsFirstItem = firstItem.comments.length;
+    const countCommentsSecondItem = secondItem.comments.length;
+    return countCommentsFirstItem - countCommentsSecondItem;
+  });
+
+  return sortArrayFilmsСcomments.splice(newArrayFilms.length - 2, newArrayFilms.length);
 };
 
 export {
@@ -93,6 +100,7 @@ export {
   castTimeFormat,
   getStringFormatDate,
   getStringArray,
-  getMaxNumberOfKey
+  getTop2FilmsByRaiting,
+  getTop2FilmsByComments
 };
 
