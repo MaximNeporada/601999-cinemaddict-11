@@ -5,15 +5,15 @@
 // от 21 и выше — movie buff;*/
 // функция фозвращает звание пользователя
 
-const getProfileRaiting = (filmsCountWathed) => {
+const getProfileRaiting = (filmsCountWatched) => {
   switch (true) {
-    case filmsCountWathed === 0 :
-      return``;
-    case filmsCountWathed > 0 && filmsCountWathed <= 10 :
+    case filmsCountWatched === 0 :
+      return ``;
+    case filmsCountWatched > 0 && filmsCountWatched <= 10 :
       return `novice`;
-    case filmsCountWathed >= 11 && filmsCountWathed <= 20 :
+    case filmsCountWatched >= 11 && filmsCountWatched <= 20 :
       return `fan`;
-    case filmsCountWathed > 20 :
+    case filmsCountWatched > 20 :
       return `movie buff`;
   }
 
