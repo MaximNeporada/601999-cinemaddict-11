@@ -1,5 +1,5 @@
 //  компонент Список фильмов
-export const createFilmsListTemplate = () =>{
+const createFilmsListTemplate = () =>{
   return (
     `<section class="films-list">
       <h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>
@@ -8,3 +8,5 @@ export const createFilmsListTemplate = () =>{
     </section>`
   );
 };
+
+export {createFilmsListTemplate};
