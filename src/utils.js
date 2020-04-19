@@ -10,7 +10,7 @@ const formatRunTime = (seconds) => {
   if (minutes) {
     newFormatTime += `${minutes}m`;
   }
-  return newFormatTime ? newFormatTime : undefined;
+  return newFormatTime ? newFormatTime : null;
 };
 
 // функция возвращает рандомное число в заданном промежутке
@@ -26,24 +26,22 @@ const getRandomArrayItem = (arr) => {
 };
 
 // функция возвращает рандомный массив с заданной или той же длины
-const getRandomArray = (arr, lengthNewArr = undefined) => {
+const getRandomArray = (arr, lengthNewArr) => {
   let newArr = [...arr];
 
   for (let i = newArr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    let temp = newArr[j];
-    newArr[j] = newArr[i];
-    newArr[i] = temp;
+    [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
   }
 
-  newArr = lengthNewArr !== undefined ? newArr.slice(0, lengthNewArr) : newArr;
+  newArr = typeof lengthNewArr === undefined ? newArr : newArr.slice(0, lengthNewArr);
 
   return newArr;
 };
 
 // функция возвращает строку 99
 const castTimeFormat = (value) => {
-  return value < 10 ? `0${value}` : String(value);
+  return value.padStart(2, `0`);
 };
 
 // функция возврощает строку Даты в формате MM-DD-YYYY и валидирует на высокосный год и февраль для создания даты
@@ -52,12 +50,7 @@ const getStringFormatDate = (day, month, year) => {
   const monthInt = parseInt(month, 10);
   const yearInt = parseInt(year, 10);
   if (monthInt === 2 && dayInt > 28) {
-    const isLeapYear = yearInt % 4 === 0;
-    if (isLeapYear) {
-      dayInt = 29;
-    } else {
-      dayInt = 28;
-    }
+    dayInt = yearInt % 4 === 0 ? 29 : 28;
   }
   return `${castTimeFormat(monthInt)}-${castTimeFormat(dayInt)}-${yearInt}`;
 };
@@ -73,15 +66,15 @@ const getStringArray = (arr, symbolConcat = `, `) => {
 };
 
 // функция нахождения максимального значения
-const getMaxNumberOfKey = (array, keyFind, countElements) => {
+const getMaxNumberOfKey = (array, keyFind, countElements = 1) => {
   const newArray = [...array];
   const isArray = Array.isArray(newArray[0][keyFind]);
   let sortArray = newArray.sort((firstItem, secondItem) => {
     let firstItemInt;
     let secondItemInt;
     if (isArray) {
-      firstItemInt = parseInt(firstItem[keyFind].length, 10);
-      secondItemInt = parseInt(secondItem[keyFind].length, 10);
+      firstItemInt = firstItem[keyFind].length;
+      secondItemInt = secondItem[keyFind].length;
     } else {
       firstItemInt = parseFloat(firstItem[keyFind]);
       secondItemInt = parseFloat(secondItem[keyFind]);
@@ -89,7 +82,6 @@ const getMaxNumberOfKey = (array, keyFind, countElements) => {
 
     return firstItemInt - secondItemInt;
   });
-
   return sortArray.splice(sortArray.length - countElements, sortArray.length);
 };
 

@@ -6,23 +6,18 @@
 // функция фозвращает звание пользователя
 
 const getProfileRaiting = (filmsCountWathed) => {
-  let text = ``;
   switch (true) {
     case filmsCountWathed === 0 :
-      text = ``;
-      break;
+      return``;
     case filmsCountWathed > 0 && filmsCountWathed <= 10 :
-      text = `novice`;
-      break;
+      return `novice`;
     case filmsCountWathed >= 11 && filmsCountWathed <= 20 :
-      text = `fan`;
-      break;
+      return `fan`;
     case filmsCountWathed > 20 :
-      text = `movie buff`;
-      break;
+      return `movie buff`;
   }
 
-  return text;
+  return ``;
 };
 
 export const createProfileTemplate = (filmsCountWathed) => {
