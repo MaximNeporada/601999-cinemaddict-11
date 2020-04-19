@@ -34,7 +34,7 @@ const getRandomArray = (arr, lengthNewArr) => {
     [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
   }
 
-  newArr = typeof lengthNewArr === undefined ? newArr : newArr.slice(0, lengthNewArr);
+  newArr = typeof lengthNewArr === `undefined` ? newArr : newArr.slice(0, lengthNewArr);
 
   return newArr;
 };
