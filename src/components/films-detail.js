@@ -1,5 +1,6 @@
 // компонент Подробной информации о фильме (попап)
-import {getStringArray, castTimeFormat} from './../utils';
+import {getStringArray, castTimeFormat} from '../utils/common';
+import {createElement} from "../utils/render";
 import {CONTROL_BUTTON, EMOJIES, MONTH_NAMES} from './../const';
 
 // создания html Постера
@@ -78,8 +79,8 @@ const filmDetailInfoMarkup = (film) => {
 };
 
 // создания html кнопок контроля
-const controlButtonMarkup = (conrolButton, isChecked) => {
-  const {id, text} = conrolButton;
+const controlButtonMarkup = (controlButton, isChecked) => {
+  const {id, text} = controlButton;
   return (`
     <input type="checkbox" class="film-details__control-input visually-hidden" id="${id}" name="${id}" ${isChecked ? `checked` : ``}>
     <label for="watchlist" class="film-details__control-label film-details__control-label--${id}}">${text}</label>
@@ -153,7 +154,7 @@ const commentsWrapMarkup = (film) => {
 };
 
 // создания html детальной карточки товара
-export const createFilmDetailTemplate = (film) => {
+const createFilmDetailTemplate = (film) => {
   const {isWatchList, isWatched, isFavorite} = film;
   return (
     `<section class="film-details">
@@ -177,3 +178,26 @@ export const createFilmDetailTemplate = (film) => {
     </section>`
   );
 };
+
+export class FilmDetail {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmDetailTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

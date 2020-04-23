@@ -1,5 +1,5 @@
 import {EMOJIES, MAX_COMMENTS_COUNT} from "./../const";
-import {formatRunTime, getRandomInteger, getRandomArrayItem, getRandomArray, getStringFormatDate, castTimeFormat, getStringArray} from './../utils';
+import {formatRunTime, getRandomInteger, getRandomArrayItem, getRandomArray, getStringFormatDate, castTimeFormat, getStringArray} from '../utils/common';
 
 // объекты с массивыми для генерации данных
 const FILM_CARD = {

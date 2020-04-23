@@ -1,15 +1,14 @@
-import {createProfileTemplate} from './components/profile.js';
-import {createMainNavigationTemplate} from './components/main-navigation';
-import {createSortTemplate} from "./components/sort";
-
-import {createFilmsTemplate} from "./components/films";
-import {createFilmsListTemplate} from "./components/films-list";
-import {createFilmsListExtra} from "./components/films-list-extra";
-import {createFilmsCardTemplate} from "./components/films-card";
-import {createFilmDetailTemplate} from "./components/films-detail";
-import {createFilmsShowMoreTemplates} from "./components/button-show-more";
-
-import {getTop2FilmsByRaiting, getTop2FilmsByComments, getRandomInteger} from "./utils";
+import {Profile} from './components/profile.js';
+import {MainNavigation} from './components/main-navigation';
+import {Sort} from "./components/sort";
+import {Films} from "./components/films";
+import {FilmsList} from "./components/films-list";
+import {FilmsListExtra} from "./components/films-list-extra";
+import {FilmCard} from "./components/films-card";
+import {FilmDetail} from "./components/films-detail";
+import {FilmsShowMore} from "./components/button-show-more";
+import {getTop2FilmsByRating, getTop2FilmsByComments} from "./utils/common";
+import {render, removeComponent} from "./utils/render";
 
 import {generateFilms} from "./mock/film-cards";
 import {generateFilters} from "./mock/filter";
@@ -31,79 +30,86 @@ const FILMS_LIST = {
 const films = generateFilms(FILMS_LIST.CARD_COUNT);
 const filters = generateFilters(films);
 
-const countWathced = filters.find((it) => it.id === `history`).count;
+const countWatched = filters.find((it) => it.id === `history`).count;
 
-// функция для рендеринга
-const render = (container, template, place = `beforeend`) => {
-  container.insertAdjacentHTML(place, template);
+const renderFilters = (filtersObject) => {
+  const filtersComponent = new MainNavigation(filtersObject);
+  render(siteMainElement, filtersComponent);
+};
+
+const renderFilmCard = (filmsListElement, film) => {
+  const filmComponent = new FilmCard(film);
+  render(filmsListElement, filmComponent);
+
+  // // рендер рандомной детальной карточки
+// const randomFilm = films[getRandomInteger(0, films.length - 1)];
+// render(siteFooterElement, createFilmDetailTemplate(randomFilm), `afterend`);
+};
+
+const renderFilms = (filmsComponentElement, filmCards) => {
+  // рендер блока список фильмов
+  const filmsListComponent = new FilmsList();
+  render(filmsComponentElement.getElement(), filmsListComponent);
+
+  let showFilmsCount = FILMS_LIST.CARD_COUNT_ON_START;
+  const filmListContainerElement = filmsListComponent.getElement().querySelector(`.films-list__container`);
+  filmCards.slice(0, showFilmsCount)
+    .forEach((film) => renderFilmCard(filmListContainerElement, film));
+
+  const showMoreComponent = new FilmsShowMore();
+  render(filmsListComponent.getElement(), showMoreComponent);
+
+  showMoreComponent.getElement().addEventListener(`click`, () => {
+    const prevTasksCount = showFilmsCount;
+    showFilmsCount = showFilmsCount + FILMS_LIST.SHOWING_COUNT_BY_BUTTON;
+
+    filmCards.slice(prevTasksCount, showFilmsCount)
+      .forEach((film) => renderFilmCard(filmListContainerElement, film));
+
+    if (showFilmsCount >= films.length) {
+      removeComponent(showMoreComponent);
+    }
+  });
+
+  // функция рендера топ блоков с рендером карточек
+  const renderTopBLock = (component, sortFunc) => {
+    const siteFilmsExtraContainer = component.getElement().querySelector(`.films-list__container`);
+    const topFilms = sortFunc(filmCards);
+    topFilms.forEach((film) => renderFilmCard(siteFilmsExtraContainer, film));
+  };
+
+  // рендер блоков «Top rated»
+  const topRatedComponent = new FilmsListExtra(FILMS_LIST.TOP_RATING);
+  render(filmsComponentElement.getElement(), topRatedComponent);
+  renderTopBLock(topRatedComponent, getTop2FilmsByRating);
+
+  // рендер блоков «Top Comments»
+  const topCommentsComponent = new FilmsListExtra(FILMS_LIST.TOP_COMMENTS);
+  render(filmsComponentElement.getElement(), topCommentsComponent);
+  renderTopBLock(topCommentsComponent, getTop2FilmsByComments);
 };
 
 const siteHeaderElement = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
 
 // рендер профиля
-render(siteHeaderElement, createProfileTemplate(countWathced));
+const profileComponent = new Profile(countWatched);
+render(siteHeaderElement, profileComponent);
 
 // рендер фильтров
-render(siteMainElement, createMainNavigationTemplate(filters));
+renderFilters(filters);
 
 // рендер сортировки
-render(siteMainElement, createSortTemplate());
+const sortComponent = new Sort();
+render(siteMainElement, sortComponent);
 
 // рендер секции фильмов
-render(siteMainElement, createFilmsTemplate());
+const filmsComponent = new Films();
+render(siteMainElement, filmsComponent);
 
-const siteFilmsElement = siteMainElement.querySelector(`.films`);
-
-// рендер блока список фильмов
-render(siteFilmsElement, createFilmsListTemplate());
-
-const siteFilmsListElement = siteFilmsElement.querySelector(`.films-list`);
-const siteFilmsListContainerElement = siteFilmsElement.querySelector(`.films-list__container`);
-
-// рендер карточек фильмов
-let showFilmsCount = FILMS_LIST.CARD_COUNT_ON_START;
-films.slice(0, showFilmsCount).forEach((film) => render(siteFilmsListContainerElement, createFilmsCardTemplate(film)));
-
-// рендер и создание события кнопки SHOW MORE
-render(siteFilmsListElement, createFilmsShowMoreTemplates());
-
-const loadMoreButton = siteFilmsListElement.querySelector(`.films-list__show-more`);
-
-loadMoreButton.addEventListener(`click`, () => {
-  const prevTasksCount = showFilmsCount;
-  showFilmsCount = showFilmsCount + FILMS_LIST.SHOWING_COUNT_BY_BUTTON;
-
-  films.slice(prevTasksCount, showFilmsCount)
-    .forEach((film) => render(siteFilmsListContainerElement, createFilmsCardTemplate(film)));
-
-  if (showFilmsCount >= films.length) {
-    loadMoreButton.remove();
-  }
-});
-
-// // рендер блоков «Top rated»
-render(siteFilmsElement, createFilmsListExtra(FILMS_LIST.TOP_RATING));
-const siteFilmsExtraRating = siteFilmsElement.querySelector(`[data-id-section="${FILMS_LIST.TOP_RATING.id}"] .films-list__container`);
-const topRatingFilms = getTop2FilmsByRaiting(films);
-topRatingFilms.forEach((film) => {
-  render(siteFilmsExtraRating, createFilmsCardTemplate(film));
-});
-
-
-// // рендер блоков «Top Comments»
-render(siteFilmsElement, createFilmsListExtra(FILMS_LIST.TOP_COMMENTS));
-const siteFilmsExtraComment = siteFilmsElement.querySelector(`[data-id-section="${FILMS_LIST.TOP_COMMENTS.id}"] .films-list__container`);
-const topCommentFilms = getTop2FilmsByComments(films);
-topCommentFilms.forEach((film) => {
-  render(siteFilmsExtraComment, createFilmsCardTemplate(film));
-});
+renderFilms(filmsComponent, films);
 
 // рендер футера
 const siteFooterElement = document.querySelector(`.footer`);
-const siteFooterStatisticks = siteFooterElement.querySelector(`.footer__statistics`);
-siteFooterStatisticks.textContent = `${films.length}`;
-
-// рендер рандомной детальной карточки
-const randomFilm = films[getRandomInteger(0, films.length - 1)];
-render(siteFooterElement, createFilmDetailTemplate(randomFilm), `afterend`);
+const siteFooterStatistics = siteFooterElement.querySelector(`.footer__statistics`);
+siteFooterStatistics.textContent = `${films.length}`;
