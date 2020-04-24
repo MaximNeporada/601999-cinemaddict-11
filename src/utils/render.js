@@ -1,7 +1,8 @@
 // функция создания DOM элемент из шаблона, на входе шаблон элемента, возвращает DOM элемент
 const RenderPosition = {
   AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`
+  BEFOREEND: `beforeend`,
+  AFTEREND: `afterend`,
 };
 
 const createElement = (template) => {
@@ -20,6 +21,12 @@ const render = (container, component, place = RenderPosition.BEFOREEND) => {
     case RenderPosition.BEFOREEND:
       container.append(component.getElement());
       break;
+    case RenderPosition.AFTEREND:
+      const parent = container.parentNode;
+      if (parent) {
+        parent.append(component.getElement());
+      }
+      break;
   }
 };
 
@@ -27,6 +34,5 @@ const removeComponent = (component) => {
   component.getElement().remove();
   component.removeElement();
 };
-
 
 export {RenderPosition, createElement, render, removeComponent};

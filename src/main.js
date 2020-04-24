@@ -9,7 +9,6 @@ import {FilmDetail} from "./components/films-detail";
 import {FilmsShowMore} from "./components/button-show-more";
 import {getTop2FilmsByRating, getTop2FilmsByComments} from "./utils/common";
 import {render, removeComponent} from "./utils/render";
-
 import {generateFilms} from "./mock/film-cards";
 import {generateFilters} from "./mock/filter";
 
@@ -27,6 +26,12 @@ const FILMS_LIST = {
   },
 };
 
+
+const siteHeaderElement = document.querySelector(`.header`);
+const siteMainElement = document.querySelector(`.main`);
+const siteFooterElement = document.querySelector(`.footer`);
+const siteBodyElement = document.querySelector(`body`);
+
 const films = generateFilms(FILMS_LIST.CARD_COUNT);
 const filters = generateFilters(films);
 
@@ -39,11 +44,42 @@ const renderFilters = (filtersObject) => {
 
 const renderFilmCard = (filmsListElement, film) => {
   const filmComponent = new FilmCard(film);
-  render(filmsListElement, filmComponent);
+  const filmDetailComponent = new FilmDetail(film);
+  const filmPoster = filmComponent.getElement().querySelector(`.film-card__poster`);
+  const filmTitle = filmComponent.getElement().querySelector(`.film-card__title`);
+  const filmComments = filmComponent.getElement().querySelector(`.film-card__comments`);
+  const cardButtonsOpenPopup = [filmPoster, filmTitle, filmComments];
 
-  // // рендер рандомной детальной карточки
-// const randomFilm = films[getRandomInteger(0, films.length - 1)];
-// render(siteFooterElement, createFilmDetailTemplate(randomFilm), `afterend`);
+  const onEscKeyDown = (evt) => {
+    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+
+    if (isEscKey) {
+      closeFilmDetail();
+    }
+  };
+
+  const closeFilmDetail = () => {
+    siteBodyElement.removeChild(filmDetailComponent.getElement());
+    document.removeEventListener(`keydown`, onEscKeyDown);
+  };
+
+  const closeAllPopup = () => {
+    const popupsSite = siteBodyElement.querySelectorAll(`.film-details`);
+    if (popupsSite) {
+      popupsSite.forEach((popup) => siteBodyElement.removeChild(popup));
+    }
+  };
+
+  const showFilmDetail = () => {
+    closeAllPopup();
+    siteBodyElement.appendChild(filmDetailComponent.getElement());
+    const closeButton = filmDetailComponent.getElement().querySelector(`.film-details__close-btn`);
+    closeButton.addEventListener(`click`, closeFilmDetail);
+    document.addEventListener(`keydown`, onEscKeyDown);
+  };
+
+  cardButtonsOpenPopup.forEach((button) => button.addEventListener(`click`, showFilmDetail));
+  render(filmsListElement, filmComponent);
 };
 
 const renderFilms = (filmsComponentElement, filmCards) => {
@@ -89,9 +125,6 @@ const renderFilms = (filmsComponentElement, filmCards) => {
   renderTopBLock(topCommentsComponent, getTop2FilmsByComments);
 };
 
-const siteHeaderElement = document.querySelector(`.header`);
-const siteMainElement = document.querySelector(`.main`);
-
 // рендер профиля
 const profileComponent = new Profile(countWatched);
 render(siteHeaderElement, profileComponent);
@@ -110,6 +143,5 @@ render(siteMainElement, filmsComponent);
 renderFilms(filmsComponent, films);
 
 // рендер футера
-const siteFooterElement = document.querySelector(`.footer`);
 const siteFooterStatistics = siteFooterElement.querySelector(`.footer__statistics`);
 siteFooterStatistics.textContent = `${films.length}`;

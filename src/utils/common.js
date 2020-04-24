@@ -70,7 +70,7 @@ const getStringArray = (arr, symbolConcat = `, `) => {
 const getTop2FilmsByRating = (arrayFilms) => {
   const newArrayFilms = [...arrayFilms];
   // сортировка списка фильмов по рейтингу от меньшего к большему
-  let sortArrayFilmsRaiting = newArrayFilms.sort( (firstItem, secondItem) => {
+  let sortArrayFilmsRaiting = newArrayFilms.sort((firstItem, secondItem) => {
     return parseFloat(firstItem.rating) - parseFloat(secondItem.rating);
   });
 
@@ -83,7 +83,7 @@ const getTop2FilmsByRating = (arrayFilms) => {
 const getTop2FilmsByComments = (arrayFilms) => {
   const newArrayFilms = [...arrayFilms];
   // сортировка списка фильмов по рейтингу от меньшего к большему
-  let sortArrayFilmsСcomments = newArrayFilms.sort( (firstItem, secondItem) => {
+  let sortArrayFilmsСcomments = newArrayFilms.sort((firstItem, secondItem) => {
     const countCommentsFirstItem = firstItem.comments.length;
     const countCommentsSecondItem = secondItem.comments.length;
     return countCommentsFirstItem - countCommentsSecondItem;

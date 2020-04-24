@@ -7,7 +7,7 @@ const createFilmsTemplate = () =>{
   );
 };
 
-export class Films  {
+export class Films {
   constructor() {
     this._element = null;
   }
