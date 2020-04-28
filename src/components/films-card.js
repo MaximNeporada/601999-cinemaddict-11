@@ -1,4 +1,5 @@
-import {getRandomArrayItem} from "./../utils";
+import {getRandomArrayItem} from "../utils/common";
+import {createElement} from "../utils/render";
 import {MAX_CARD_DESCRIPTION_LENGTH, CONTROL_BUTTON} from "./../const";
 
 // получаем обрезанную строку если строка > MAX_CARD_DESCRIPTION_LENGTH
@@ -21,7 +22,7 @@ const controlButtonMarkup = (conrolButton, isChecked) => {
   `);
 };
 
-const createFilmsCardTemplate = (film) =>{
+const createFilmCardTemplate = (film) =>{
   const {name, rating, releaseDate, runTime, genres, poster, comments, description, isWatchList, isWatched, isFavorite} = film;
   const releaseDateFormat = new Date(releaseDate);
   const releaseYear = releaseDateFormat.getFullYear();
@@ -47,4 +48,26 @@ const createFilmsCardTemplate = (film) =>{
   );
 };
 
-export {createFilmsCardTemplate};
+export class FilmCard {
+  constructor(film) {
+    this._film = film;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createFilmCardTemplate(this._film);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
+

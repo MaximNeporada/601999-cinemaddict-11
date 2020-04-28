@@ -67,10 +67,10 @@ const getStringArray = (arr, symbolConcat = `, `) => {
 
 // функция нахождения топ 2 фильма по рейтингу
 // принимает список фильмов, возвращает список из 2 фильмов
-const getTop2FilmsByRaiting = (arrayFilms) => {
+const getTop2FilmsByRating = (arrayFilms) => {
   const newArrayFilms = [...arrayFilms];
   // сортировка списка фильмов по рейтингу от меньшего к большему
-  let sortArrayFilmsRaiting = newArrayFilms.sort( (firstItem, secondItem) => {
+  let sortArrayFilmsRaiting = newArrayFilms.sort((firstItem, secondItem) => {
     return parseFloat(firstItem.rating) - parseFloat(secondItem.rating);
   });
 
@@ -83,7 +83,7 @@ const getTop2FilmsByRaiting = (arrayFilms) => {
 const getTop2FilmsByComments = (arrayFilms) => {
   const newArrayFilms = [...arrayFilms];
   // сортировка списка фильмов по рейтингу от меньшего к большему
-  let sortArrayFilmsСcomments = newArrayFilms.sort( (firstItem, secondItem) => {
+  let sortArrayFilmsСcomments = newArrayFilms.sort((firstItem, secondItem) => {
     const countCommentsFirstItem = firstItem.comments.length;
     const countCommentsSecondItem = secondItem.comments.length;
     return countCommentsFirstItem - countCommentsSecondItem;
@@ -100,7 +100,7 @@ export {
   castTimeFormat,
   getStringFormatDate,
   getStringArray,
-  getTop2FilmsByRaiting,
+  getTop2FilmsByRating,
   getTop2FilmsByComments
 };
 
