@@ -15,7 +15,7 @@ import {generateFilms} from "./mock/film-cards";
 import {generateFilters} from "./mock/filter";
 
 const FILMS_LIST = {
-  CARD_COUNT: 0,
+  CARD_COUNT: 10,
   CARD_COUNT_ON_START: 5,
   SHOWING_COUNT_BY_BUTTON: 5,
   TOP_RATING: {
