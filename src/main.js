@@ -72,7 +72,7 @@ const renderFilmCard = (filmsListElement, film) => {
     closeAllPopup();
     siteBodyElement.appendChild(filmDetailComponent.getElement());
     filmDetailComponent.setCloseButtonClickHandler(closeFilmDetail);
-    document.addEventListener(`closeButtonkeydown`, onEscKeyDown);
+    document.addEventListener(`keydown`, onEscKeyDown);
   };
 
   filmComponent.setButtonOpenPopupClickHandler(showFilmDetail);
