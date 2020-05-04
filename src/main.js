@@ -7,13 +7,15 @@ import {FilmsListExtra} from "./components/films-list-extra";
 import {FilmCard} from "./components/films-card";
 import {FilmDetail} from "./components/films-detail";
 import {FilmsShowMore} from "./components/button-show-more";
+import {NoFilms} from "./components/no-films";
+
 import {getTop2FilmsByRating, getTop2FilmsByComments} from "./utils/common";
 import {render, removeComponent} from "./utils/render";
 import {generateFilms} from "./mock/film-cards";
 import {generateFilters} from "./mock/filter";
 
 const FILMS_LIST = {
-  CARD_COUNT: 15,
+  CARD_COUNT: 10,
   CARD_COUNT_ON_START: 5,
   SHOWING_COUNT_BY_BUTTON: 5,
   TOP_RATING: {
@@ -84,6 +86,12 @@ const renderFilmCard = (filmsListElement, film) => {
 
 const renderFilms = (filmsComponentElement, filmCards) => {
   // рендер блока список фильмов
+  if (filmCards.length === 0) {
+    const noFilmsComponent = new NoFilms();
+    render(filmsComponentElement.getElement(), noFilmsComponent);
+    return;
+  }
+
   const filmsListComponent = new FilmsList();
   render(filmsComponentElement.getElement(), filmsListComponent);
 
