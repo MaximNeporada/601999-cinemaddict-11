@@ -11,4 +11,8 @@ export class FilmsShowMore extends AbstractComponent {
   getTemplate() {
     return createFilmsShowMoreTemplates();
   }
+
+  setClickHandler(handler) {
+    this.getElement().addEventListener(`click`, handler);
+  }
 }

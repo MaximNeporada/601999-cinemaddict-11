@@ -47,10 +47,6 @@ const renderFilters = (filtersObject) => {
 const renderFilmCard = (filmsListElement, film) => {
   const filmComponent = new FilmCard(film);
   const filmDetailComponent = new FilmDetail(film);
-  const filmPoster = filmComponent.getElement().querySelector(`.film-card__poster`);
-  const filmTitle = filmComponent.getElement().querySelector(`.film-card__title`);
-  const filmComments = filmComponent.getElement().querySelector(`.film-card__comments`);
-  const cardButtonsOpenPopup = [filmPoster, filmTitle, filmComments];
 
   const onEscKeyDown = (evt) => {
     const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
@@ -75,12 +71,11 @@ const renderFilmCard = (filmsListElement, film) => {
   const showFilmDetail = () => {
     closeAllPopup();
     siteBodyElement.appendChild(filmDetailComponent.getElement());
-    const closeButton = filmDetailComponent.getElement().querySelector(`.film-details__close-btn`);
-    closeButton.addEventListener(`click`, closeFilmDetail);
-    document.addEventListener(`keydown`, onEscKeyDown);
+    filmDetailComponent.setCloseButtonClickHandler(closeFilmDetail);
+    document.addEventListener(`closeButtonkeydown`, onEscKeyDown);
   };
 
-  cardButtonsOpenPopup.forEach((button) => button.addEventListener(`click`, showFilmDetail));
+  filmComponent.setButtonOpenPopupClickHandler(showFilmDetail);
   render(filmsListElement, filmComponent);
 };
 
@@ -103,7 +98,7 @@ const renderFilms = (filmsComponentElement, filmCards) => {
   const showMoreComponent = new FilmsShowMore();
   render(filmsListComponent.getElement(), showMoreComponent);
 
-  showMoreComponent.getElement().addEventListener(`click`, () => {
+  const showMoreHandler = () => {
     const prevTasksCount = showFilmsCount;
     showFilmsCount = showFilmsCount + FILMS_LIST.SHOWING_COUNT_BY_BUTTON;
 
@@ -113,7 +108,9 @@ const renderFilms = (filmsComponentElement, filmCards) => {
     if (showFilmsCount >= films.length) {
       removeComponent(showMoreComponent);
     }
-  });
+  };
+
+  showMoreComponent.setClickHandler(showMoreHandler);
 
   // функция рендера топ блоков с рендером карточек
   const renderTopBLock = (component, sortFunc) => {

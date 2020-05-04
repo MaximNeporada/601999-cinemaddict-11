@@ -57,4 +57,13 @@ export class FilmCard extends AbstractComponent {
   getTemplate() {
     return createFilmCardTemplate(this._film);
   }
+
+  setButtonOpenPopupClickHandler(handler) {
+    const filmPoster = this.getElement().querySelector(`.film-card__poster`);
+    const filmTitle = this.getElement().querySelector(`.film-card__title`);
+    const filmComments = this.getElement().querySelector(`.film-card__comments`);
+    const cardButtonsOpenPopup = [filmPoster, filmTitle, filmComments];
+
+    cardButtonsOpenPopup.forEach((button) => button.addEventListener(`click`, handler));
+  }
 }
