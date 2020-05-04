@@ -1,6 +1,6 @@
 // компонент Подробной информации о фильме (попап)
+import {AbstractComponent} from "./abstract-component";
 import {getStringArray, castTimeFormat} from '../utils/common';
-import {createElement} from "../utils/render";
 import {CONTROL_BUTTON, EMOJIES, MONTH_NAMES} from './../const';
 
 // создания html Постера
@@ -179,25 +179,13 @@ const createFilmDetailTemplate = (film) => {
   );
 };
 
-export class FilmDetail {
+export class FilmDetail extends AbstractComponent {
   constructor(film) {
+    super();
     this._film = film;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmDetailTemplate(this._film);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

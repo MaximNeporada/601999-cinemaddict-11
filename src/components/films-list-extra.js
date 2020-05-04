@@ -1,5 +1,5 @@
 //  компонент дополнительных блоков «Top rated» и «Most commented»
-import {createElement} from "../utils/render";
+import {AbstractComponent} from "./abstract-component";
 
 const createFilmsListExtra = (item) => {
   const {id, title} = item;
@@ -12,27 +12,14 @@ const createFilmsListExtra = (item) => {
   );
 };
 
-
-export class FilmsListExtra {
+export class FilmsListExtra extends AbstractComponent {
   constructor(item) {
+    super();
     this._item = item;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmsListExtra(this._item);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
 

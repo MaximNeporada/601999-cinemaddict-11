@@ -1,5 +1,5 @@
 //  компонент Меню (фильтры и статистика);
-import {createElement} from "../utils/render";
+import {AbstractComponent} from "./abstract-component";
 
 const createFilterMarkup = (filter, isChecked) => {
   const {id, name, count, isAll} = filter;
@@ -28,27 +28,14 @@ const createMainNavigationTemplate = (filters) => {
   );
 };
 
-
-export class MainNavigation {
+export class MainNavigation extends AbstractComponent {
   constructor(filters) {
+    super();
     this._filters = filters;
-    this._element = null;
   }
 
   getTemplate() {
     return createMainNavigationTemplate(this._filters);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
 

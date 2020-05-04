@@ -1,5 +1,5 @@
 //  компонент Список фильмов
-import {createElement} from "../utils/render";
+import {AbstractComponent} from "./abstract-component";
 
 const createFilmsListTemplate = () =>{
   return (
@@ -11,24 +11,8 @@ const createFilmsListTemplate = () =>{
   );
 };
 
-export class FilmsList {
-  constructor() {
-    this._element = null;
-  }
-
+export class FilmsList extends AbstractComponent {
   getTemplate() {
     return createFilmsListTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
