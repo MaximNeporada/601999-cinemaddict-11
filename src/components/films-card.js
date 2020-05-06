@@ -1,5 +1,5 @@
+import {AbstractComponent} from "./abstract-component";
 import {getRandomArrayItem} from "../utils/common";
-import {createElement} from "../utils/render";
 import {MAX_CARD_DESCRIPTION_LENGTH, CONTROL_BUTTON} from "./../const";
 
 // получаем обрезанную строку если строка > MAX_CARD_DESCRIPTION_LENGTH
@@ -48,26 +48,22 @@ const createFilmCardTemplate = (film) =>{
   );
 };
 
-export class FilmCard {
+export class FilmCard extends AbstractComponent {
   constructor(film) {
+    super();
     this._film = film;
-    this._element = null;
   }
 
   getTemplate() {
     return createFilmCardTemplate(this._film);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
+  setButtonOpenPopupClickHandler(handler) {
+    const filmPoster = this.getElement().querySelector(`.film-card__poster`);
+    const filmTitle = this.getElement().querySelector(`.film-card__title`);
+    const filmComments = this.getElement().querySelector(`.film-card__comments`);
+    const cardButtonsOpenPopup = [filmPoster, filmTitle, filmComments];
 
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+    cardButtonsOpenPopup.forEach((button) => button.addEventListener(`click`, handler));
   }
 }
-

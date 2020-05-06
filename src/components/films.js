@@ -1,5 +1,5 @@
 //  компонент секкция Фильм
-import {createElement} from "../utils/render";
+import {AbstractComponent} from "./abstract-component";
 
 const createFilmsTemplate = () =>{
   return (
@@ -7,24 +7,8 @@ const createFilmsTemplate = () =>{
   );
 };
 
-export class Films {
-  constructor() {
-    this._element = null;
-  }
-
+export class Films extends AbstractComponent {
   getTemplate() {
     return createFilmsTemplate();
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

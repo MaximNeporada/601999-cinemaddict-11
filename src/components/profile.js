@@ -4,7 +4,7 @@
 // от 1 до 10 — novice;
 // от 11 до 20 — fan;
 // от 21 и выше — movie buff;*/
-import {createElement} from "../utils/render";
+import {AbstractComponent} from "./abstract-component";
 
 const getProfileRaiting = (filmsCountWatched) => {
   switch (true) {
@@ -30,25 +30,13 @@ export const createProfileTemplate = (filmsCountWatched) => {
   );
 };
 
-export class Profile {
+export class Profile extends AbstractComponent {
   constructor(filmsCountWatched) {
+    super();
     this._filmCount = filmsCountWatched;
-    this._element = null;
   }
 
   getTemplate() {
     return createProfileTemplate(this._filmCount);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

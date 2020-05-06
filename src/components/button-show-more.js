@@ -1,5 +1,5 @@
 //  компонент Кнопка "Show more"
-import {createElement} from "../utils/render";
+import {AbstractComponent} from "./abstract-component";
 
 const createFilmsShowMoreTemplates = () => {
   return (
@@ -7,24 +7,12 @@ const createFilmsShowMoreTemplates = () => {
   );
 };
 
-export class FilmsShowMore {
-  constructor() {
-    this._element = null;
-  }
-
+export class FilmsShowMore extends AbstractComponent {
   getTemplate() {
     return createFilmsShowMoreTemplates();
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setClickHandler(handler) {
+    this.getElement().addEventListener(`click`, handler);
   }
 }
