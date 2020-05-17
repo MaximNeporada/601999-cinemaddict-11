@@ -34,7 +34,7 @@ const renderFilmCard = (film, filmsListElement) => {
     }
   };
 
-  const bodyElement =  filmsListElement.closest(`body`);
+  const bodyElement = filmsListElement.closest(`body`);
 
   const closeFilmDetail = () => {
     bodyElement.removeChild(filmDetailComponent.getElement());
