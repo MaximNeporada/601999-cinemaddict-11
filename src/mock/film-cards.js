@@ -178,9 +178,9 @@ const generateFilm = () => {
     poster: getRandomArrayItem(FILM_CARD.posters),
     age: getRandomArrayItem(FILM_CARD.age),
     comments: generateCommentList(),
-    isWatchList: Math.random() > 0.5,
-    isWatched: Math.random() > 0.5,
-    isFavorite: Math.random() > 0.5,
+    isWatchList: true,
+    isWatched: false,
+    isFavorite: true,
   };
 };
 

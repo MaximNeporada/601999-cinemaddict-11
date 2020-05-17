@@ -1,5 +1,5 @@
 // компонент Подробной информации о фильме (попап)
-import {AbstractComponent} from "./abstract-component";
+import {AbstractSmartComponent} from "./abstract-smart-component";
 import {getStringArray, castTimeFormat} from '../utils/common';
 import {CONTROL_BUTTON, EMOJIES, MONTH_NAMES} from './../const';
 
@@ -83,7 +83,7 @@ const controlButtonMarkup = (controlButton, isChecked) => {
   const {id, text} = controlButton;
   return (`
     <input type="checkbox" class="film-details__control-input visually-hidden" id="${id}" name="${id}" ${isChecked ? `checked` : ``}>
-    <label for="watchlist" class="film-details__control-label film-details__control-label--${id}}">${text}</label>
+    <label for="${id}" class="film-details__control-label film-details__control-label--${id}">${text}</label>
   `);
 };
 
@@ -110,9 +110,9 @@ const commentsListMarkup = (comment) => {
 };
 
 // создания html элемента эмоции
-const emojieMarkup = (emoji) => {
+const emojieMarkup = (emoji, isChecked) => {
   return (`
-      <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emoji}" value="${emoji}">
+      <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emoji}" value="${emoji}" ${isChecked ? `checked` : ``} >
       <label class="film-details__emoji-label" for="emoji-${emoji}">
         <img src="./images/emoji/${emoji}.png" width="30" height="30" alt="emoji">
       </label>
@@ -120,15 +120,26 @@ const emojieMarkup = (emoji) => {
 };
 
 // создания html секции коментариев
-const commentsWrapMarkup = (film) => {
+const commentsWrapMarkup = (film, emojiChecked) => {
   const {comments} = film;
   const commentsList = comments.map((item) => {
     return commentsListMarkup(item);
   }).join(`\n`);
 
   const emojiesMarkup = EMOJIES.map((emoji) => {
-    return emojieMarkup(emoji);
+    const isChecked = emoji === emojiChecked;
+    return emojieMarkup(emoji, isChecked);
   }).join(`\n`);
+
+  const emojiImageAdd = (emoji) => {
+    if (emoji) {
+      return `
+      <img src="images/emoji/${emoji}.png" width="55" height="55" alt="emoji-${emoji}">
+      `;
+    }
+
+    return ``;
+  };
 
   return (`
     <section class="film-details__comments-wrap">
@@ -139,7 +150,9 @@ const commentsWrapMarkup = (film) => {
             </ul>
 
             <div class="film-details__new-comment">
-              <div for="add-emoji" class="film-details__add-emoji-label"></div>
+              <div for="add-emoji" class="film-details__add-emoji-label">
+                ${emojiImageAdd(emojiChecked)}
+              </div>
 
               <label class="film-details__comment-label">
                 <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
@@ -154,8 +167,12 @@ const commentsWrapMarkup = (film) => {
 };
 
 // создания html детальной карточки товара
-const createFilmDetailTemplate = (film) => {
-  const {isWatchList, isWatched, isFavorite} = film;
+const createFilmDetailTemplate = (film, filmSettings, emojiChecked) => {
+  const {isWatchList, isWatched, isFavorite} = filmSettings;
+  const watchListButton = controlButtonMarkup(CONTROL_BUTTON.watchList, isWatchList);
+  const watchedButton = controlButtonMarkup(CONTROL_BUTTON.watched, isWatched);
+  const favoriteButton = controlButtonMarkup(CONTROL_BUTTON.favorite, isFavorite);
+
   return (
     `<section class="film-details">
       <form class="film-details__inner" action="" method="get">
@@ -165,32 +182,100 @@ const createFilmDetailTemplate = (film) => {
           </div>
           ${filmDetailInfoMarkup(film)}
           <section class="film-details__controls">
-            ${controlButtonMarkup(CONTROL_BUTTON.watchList, isWatchList)}
-            ${controlButtonMarkup(CONTROL_BUTTON.watched, isWatched)}
-            ${controlButtonMarkup(CONTROL_BUTTON.favorite, isFavorite)}
+            ${watchListButton}
+            ${watchedButton}
+            ${favoriteButton}
           </section>
         </div>
 
         <div class="form-details__bottom-container">
-          ${commentsWrapMarkup(film)}
+          ${commentsWrapMarkup(film, emojiChecked)}
         </div>
       </form>
     </section>`
   );
 };
 
-export class FilmDetail extends AbstractComponent {
+export class FilmDetail extends AbstractSmartComponent {
   constructor(film) {
     super();
     this._film = film;
+
+    this._filmSettings = {
+      isWatchList: this._film.isWatchList,
+      isWatched: this._film.isWatched,
+      isFavorite: this._film.isFavorite,
+    };
+
+    this._emojiName = ``;
+
+
+    this._closeButtonHandler = null;
+    this._subscribeOnEvents();
   }
 
   getTemplate() {
-    return createFilmDetailTemplate(this._film);
+    return createFilmDetailTemplate(this._film, this._filmSettings, this._emojiName);
   }
 
   setCloseButtonClickHandler(handler) {
     const closeButton = this.getElement().querySelector(`.film-details__close-btn`);
     closeButton.addEventListener(`click`, handler);
+    this._closeButtonHandler = handler;
+  }
+
+  _subscribeOnEvents() {
+    const element = this.getElement();
+
+    element.querySelector(`#favorite`)
+      .addEventListener(`click`, () => {
+        this._filmSettings.isFavorite = !this._filmSettings.isFavorite;
+
+        this.rerender();
+      });
+
+    element.querySelector(`#watchlist`)
+      .addEventListener(`click`, () => {
+        this._filmSettings.isWatchList = !this._filmSettings.isWatchList;
+
+        this.rerender();
+      });
+
+    element.querySelector(`#watched`)
+      .addEventListener(`click`, () => {
+        this._filmSettings.isWatched = !this._filmSettings.isWatched;
+
+        this.rerender();
+      });
+
+    element.querySelector(`.film-details__emoji-list`)
+      .addEventListener(`change`, (evt) => {
+        this._emojiName = evt.target.value;
+
+        this.rerender();
+      });
+  }
+
+  recoveryListeners() {
+    this.setCloseButtonClickHandler(this._closeButtonHandler);
+    this._subscribeOnEvents();
+  }
+
+  reset() {
+    const film = this._film;
+
+    this._filmSettings = {
+      isWatchList: film.isWatchList,
+      isWatched: film.isWatched,
+      isFavorite: film.isFavorite,
+    };
+
+    this._emojiName = ``;
+
+    this.rerender();
+  }
+
+  rerender() {
+    super.rerender();
   }
 }

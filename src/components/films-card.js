@@ -2,6 +2,7 @@ import {AbstractComponent} from "./abstract-component";
 import {getRandomArrayItem} from "../utils/common";
 import {MAX_CARD_DESCRIPTION_LENGTH, CONTROL_BUTTON} from "./../const";
 
+
 // получаем обрезанную строку если строка > MAX_CARD_DESCRIPTION_LENGTH
 const getShortDescription = (description) => {
   if (description > MAX_CARD_DESCRIPTION_LENGTH) {
@@ -14,9 +15,9 @@ const getShortDescription = (description) => {
 };
 
 // создания html кнопок контроля
-const controlButtonMarkup = (conrolButton, isChecked) => {
+const controlButtonMarkup = (controlButton, isChecked) => {
   const controlsItemActiveClass = `film-card__controls-item--active`;
-  const {classButton, text} = conrolButton;
+  const {classButton, text} = controlButton;
   return (`
         <button class="film-card__controls-item button film-card__controls-item--${classButton} ${isChecked ? controlsItemActiveClass : `` }">${text}</button>
   `);
@@ -27,6 +28,10 @@ const createFilmCardTemplate = (film) =>{
   const releaseDateFormat = new Date(releaseDate);
   const releaseYear = releaseDateFormat.getFullYear();
   const shortDescription = getShortDescription(description);
+  const watchListButton = controlButtonMarkup(CONTROL_BUTTON.watchList, isWatchList);
+  const watchedButton = controlButtonMarkup(CONTROL_BUTTON.watched, isWatched);
+  const favoriteButton = controlButtonMarkup(CONTROL_BUTTON.favorite, isFavorite);
+
   return (
     `<article class="film-card">
       <h3 class="film-card__title">${name}</h3>
@@ -40,9 +45,9 @@ const createFilmCardTemplate = (film) =>{
       <p class="film-card__description">${shortDescription}</p>
       <a class="film-card__comments">${comments.length} comments</a>
       <form class="film-card__controls">
-        ${controlButtonMarkup(CONTROL_BUTTON.watchList, isWatchList)}
-        ${controlButtonMarkup(CONTROL_BUTTON.watched, isWatched)}
-        ${controlButtonMarkup(CONTROL_BUTTON.favorite, isFavorite)}
+        ${watchListButton}
+        ${watchedButton}
+        ${favoriteButton}
       </form>
     </article>`
   );
@@ -65,5 +70,20 @@ export class FilmCard extends AbstractComponent {
     const cardButtonsOpenPopup = [filmPoster, filmTitle, filmComments];
 
     cardButtonsOpenPopup.forEach((button) => button.addEventListener(`click`, handler));
+  }
+
+  setFavoritesButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__controls-item--favorite`)
+      .addEventListener(`click`, handler);
+  }
+
+  setWatchListButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__controls-item--add-to-watchlist`)
+      .addEventListener(`click`, handler);
+  }
+
+  setWatchedButtonClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__controls-item--mark-as-watched`)
+      .addEventListener(`click`, handler);
   }
 }
