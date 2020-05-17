@@ -24,10 +24,10 @@ export class MovieController {
   }
 
   _removeFilmDetail() {
-    this._bodyElement.removeChild(this._filmDetailComponent.getElement());
-    document.removeEventListener(`keydown`, this._onEscKeyDown);
     this._filmDetailComponent.reset();
     this._mode = Mode.DEFAULT;
+    this._bodyElement.removeChild(this._filmDetailComponent.getElement());
+    document.removeEventListener(`keydown`, this._onEscKeyDown);
   }
 
   _onEscKeyDown(evt) {
