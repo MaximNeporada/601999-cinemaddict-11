@@ -1,7 +1,8 @@
 // компонент Подробной информации о фильме (попап)
 import {AbstractSmartComponent} from "./abstract-smart-component";
-import {getStringArray, castTimeFormat} from '../utils/common';
-import {CONTROL_BUTTON, EMOJIES, MONTH_NAMES} from './../const';
+import {getStringArray} from '../utils/common';
+import moment from "moment";
+import {CONTROL_BUTTON, EMOJIES} from './../const';
 
 // создания html Постера
 const filmDetailPosterMarkup = (film) => {
@@ -13,17 +14,10 @@ const filmDetailPosterMarkup = (film) => {
           `);
 };
 
-// перевод даты в нуный формат отображения
-const getStringFormateRealeaseDate = (date) => {
-  const releaseDate = new Date(date);
-  const month = MONTH_NAMES[releaseDate.getMonth()];
-  return `${releaseDate.getDate()} ${month} ${releaseDate.getFullYear()}`;
-};
-
 // создания html информации о фильме
 const filmDetailInfoMarkup = (film) => {
   const {name, originalName, rating, director, writes, actors, releaseDate, runTime, country, genres, description} = film;
-  const releaseDateFormat = getStringFormateRealeaseDate(releaseDate);
+  const releaseDateFormat = moment(releaseDate).format(`DD MMMM YYYY`);
 
   return (`
             <div class="film-details__info-wrap">
@@ -90,8 +84,7 @@ const controlButtonMarkup = (controlButton, isChecked) => {
 // создания html списка коментариев
 const commentsListMarkup = (comment) => {
   const {name, date, text, emoji} = comment;
-  let dateFormat = new Date(date);
-  const dateString = `${dateFormat.getFullYear()}/${castTimeFormat(dateFormat.getMonth() + 1)}/${castTimeFormat(dateFormat.getDate())} ${castTimeFormat(dateFormat.getHours())}:${castTimeFormat(dateFormat.getMinutes())}`;
+  const dateString = moment(date).fromNow();
   return (`
           <li class="film-details__comment">
             <span class="film-details__comment-emoji">

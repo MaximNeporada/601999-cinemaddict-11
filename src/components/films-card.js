@@ -1,5 +1,6 @@
 import {AbstractComponent} from "./abstract-component";
 import {getRandomArrayItem} from "../utils/common";
+import moment from "moment";
 import {MAX_CARD_DESCRIPTION_LENGTH, CONTROL_BUTTON} from "./../const";
 
 
@@ -25,8 +26,7 @@ const controlButtonMarkup = (controlButton, isChecked) => {
 
 const createFilmCardTemplate = (film) =>{
   const {name, rating, releaseDate, runTime, genres, poster, comments, description, isWatchList, isWatched, isFavorite} = film;
-  const releaseDateFormat = new Date(releaseDate);
-  const releaseYear = releaseDateFormat.getFullYear();
+  const releaseYear = moment(releaseDate).format(`YYYY`);
   const shortDescription = getShortDescription(description);
   const watchListButton = controlButtonMarkup(CONTROL_BUTTON.watchList, isWatchList);
   const watchedButton = controlButtonMarkup(CONTROL_BUTTON.watched, isWatched);

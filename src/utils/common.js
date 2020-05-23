@@ -1,16 +1,7 @@
-// 9 - лубая цифра от 0-9
-// функция принимает секунды и возвращает строку в формате 99h 99m также фозвращает null при приеме некоретных данных;
-const formatRunTime = (seconds) => {
-  let newFormatTime = ``;
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor(seconds / 60) - (hours * 60);
-  if (hours) {
-    newFormatTime += `${hours}h `;
-  }
-  if (minutes) {
-    newFormatTime += `${minutes}m`;
-  }
-  return newFormatTime ? newFormatTime : null;
+import moment from "moment";
+
+const formatRunTime = (data) => {
+  return moment(data).format(`hh[h] mm[m]`);
 };
 
 // функция возвращает рандомное число в заданном промежутке
