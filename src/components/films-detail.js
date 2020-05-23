@@ -1,8 +1,8 @@
 // компонент Подробной информации о фильме (попап)
 import {AbstractSmartComponent} from "./abstract-smart-component";
-import {getStringArray, castTimeFormat} from '../utils/common';
+import {getStringArray} from '../utils/common';
 import moment from "moment";
-import {CONTROL_BUTTON, EMOJIES, MONTH_NAMES} from './../const';
+import {CONTROL_BUTTON, EMOJIES} from './../const';
 
 // создания html Постера
 const filmDetailPosterMarkup = (film) => {
