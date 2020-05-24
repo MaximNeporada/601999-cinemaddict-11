@@ -19,3 +19,14 @@ export const CONTROL_BUTTON = {
     classButton: `favorite`,
   },
 };
+
+
+export const FilterType = {
+  ALL: `all`,
+  WATCHLIST: `watchlist`,
+  HISTORY: `history`,
+  FAVORITE: `favorites`,
+  // STATS: `statistic`,
+};
+
+

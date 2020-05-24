@@ -1,11 +1,39 @@
 //  компонент Меню (фильтры и статистика);
 import {AbstractComponent} from "./abstract-component";
+import {FilterType} from "../const";
 
-const createFilterMarkup = (filter, isChecked) => {
-  const {id, name, count, isAll} = filter;
+const filtersName = [
+  {
+    id: `all`,
+    name: `All movies`,
+  },
+  {
+    id: `watchlist`,
+    name: `Watchlist`,
+  },
+  {
+    id: `history`,
+    name: `History`,
+  },
+  {
+    id: `favorites`,
+    name: `Favorites`,
+  }
+];
 
+const returnNameFilter = (id) => {
+  const element = filtersName.find((item)=> item.id === id);
+  if (element) {
+    return element.name;
+  }
+  return ``;
+}
+
+const createFilterMarkup = (filter) => {
+  const {id, count, checked} = filter;
+  const name = returnNameFilter(id);
   return (`
-        <a href="#${id}" class="main-navigation__item ${isChecked ? `main-navigation__item--active` : ``}">${name} ${!isAll ? `<span class="main-navigation__item-count">${count}</span>` : ``}</a>
+        <a href="#${id}" class="main-navigation__item ${checked ? `main-navigation__item--active` : ``}">${name} ${id !== `all` ? `<span class="main-navigation__item-count" data-filter-type="${id}">${count}</span>` : ``}</a>
     `);
 };
 
@@ -23,7 +51,7 @@ const createMainNavigationTemplate = (filters) => {
         <div class="main-navigation__items">
           ${createFilterTemplate(filters)}
         </div>
-        <a href="#stats" class="main-navigation__additional">Stats</a>
+        <a href="#stats" class="main-navigation__additional" data-filter-type="statistic">Stats</a>
     </nav>`
   );
 };
@@ -32,10 +60,32 @@ export class MainNavigation extends AbstractComponent {
   constructor(filters) {
     super();
     this._filters = filters;
+    this._currentFilterType = FilterType.ALL;
   }
 
   getTemplate() {
     return createMainNavigationTemplate(this._filters);
+  }
+
+  setFilterChangeHanlder(handler) {
+    const filterLinks = this.getElement().querySelectorAll(`.main-navigation__item`);
+    filterLinks.forEach((link)=>{
+      link.addEventListener(`click`, (evt) => {
+        evt.preventDefault();
+        if (evt.target.tagName !== `A`) {
+          return;
+        }
+
+        const filterType = evt.target.dataset.filterType;
+        if (this._currentFilterType === filterType) {
+          return;
+        }
+
+        this._currentFilterType = filterType;
+
+        handler(this._currentFilterType);
+      });
+    });
   }
 }
 

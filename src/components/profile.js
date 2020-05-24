@@ -31,9 +31,9 @@ export const createProfileTemplate = (filmsCountWatched) => {
 };
 
 export class Profile extends AbstractComponent {
-  constructor(filmsCountWatched) {
+  constructor() {
     super();
-    this._filmCount = filmsCountWatched;
+    this._filmCount = 0;
   }
 
   getTemplate() {
