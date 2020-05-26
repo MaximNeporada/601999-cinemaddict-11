@@ -43,7 +43,7 @@ export class FilterController {
   _onFilterChange(filterType) {
     this._moviesModel.setFilter(filterType);
     this._activeFilterType = filterType;
-    console.log('filter change, filterType =', this._activeFilterType);
+    this._onDataChange();
   }
 
   _onDataChange() {

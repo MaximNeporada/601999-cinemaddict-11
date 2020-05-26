@@ -33,7 +33,7 @@ const createFilterMarkup = (filter) => {
   const {id, count, checked} = filter;
   const name = returnNameFilter(id);
   return (`
-        <a href="#${id}" class="main-navigation__item ${checked ? `main-navigation__item--active` : ``}">${name} ${id !== `all` ? `<span class="main-navigation__item-count" data-filter-type="${id}">${count}</span>` : ``}</a>
+        <a href="#${id}" data-filter-type="${id}" class="main-navigation__item ${checked ? `main-navigation__item--active` : ``}" >${name} ${id !== `all` ? `<span class="main-navigation__item-count" >${count}</span>` : ``}</a>
     `);
 };
 
@@ -60,7 +60,6 @@ export class MainNavigation extends AbstractComponent {
   constructor(filters) {
     super();
     this._filters = filters;
-    this._currentFilterType = FilterType.ALL;
   }
 
   getTemplate() {
@@ -77,13 +76,8 @@ export class MainNavigation extends AbstractComponent {
         }
 
         const filterType = evt.target.dataset.filterType;
-        if (this._currentFilterType === filterType) {
-          return;
-        }
 
-        this._currentFilterType = filterType;
-
-        handler(this._currentFilterType);
+        handler(filterType);
       });
     });
   }

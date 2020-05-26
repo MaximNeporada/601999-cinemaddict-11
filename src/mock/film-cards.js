@@ -114,7 +114,7 @@ const generateFilm = () => {
     description: getStringArray(descriptions, ` `),
     poster: getRandomArrayItem(FILM_CARD.posters),
     age: getRandomArrayItem(FILM_CARD.age),
-    comments: generateCommentList(),
+    comments: generateCommentList(getRandomInteger(0, 15)),
     isWatchList: true,
     isWatched: false,
     isFavorite: true,

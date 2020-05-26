@@ -15,8 +15,6 @@ const films = generateFilms(FILMS_LIST_CARD_COUNT);
 const moviesModel = new MoviesModel();
 moviesModel.setMovies(films);
 
-
-
 // рендер профиля
 const profileComponent = new Profile();
 render(siteHeaderElement, profileComponent);

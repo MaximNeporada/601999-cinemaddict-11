@@ -112,6 +112,11 @@ const emojieMarkup = (emoji, isChecked) => {
   `);
 };
 
+
+const parseFormData = () => {
+
+};
+
 // создания html детальной карточки товара
 const createFilmDetailTemplate = (film, filmSettings) => {
   const {isWatchList, isWatched, isFavorite} = filmSettings;
@@ -155,6 +160,7 @@ export class FilmDetail extends AbstractSmartComponent {
 
 
     this._closeButtonHandler = null;
+    this._submitHandler = null;
   }
 
   getTemplate() {
@@ -177,30 +183,29 @@ export class FilmDetail extends AbstractSmartComponent {
     this.getElement().querySelector(`.film-details__controls`).addEventListener(`change`, handler);
   }
 
-  recoveryListeners() {
-    this.setCloseButtonClickHandler(this._closeButtonHandler);
+  setSubmitHandler(handler) {
+    const keyCodeEnter = 13;
+    const form = this.getElement().querySelector(`.film-details__inner`);
+    form.addEventListener(`keydown`, (evt) => {
+      if ((evt.ctrlKey || evt.metaKey) && (evt.keyCode === keyCodeEnter || evt.code === `Enter`)) {
+        handler();
+      }
+    });
+    this._submitHandler = handler;
   }
 
-  // recoveryListeners() {
-  //   this.setCloseButtonClickHandler(this._closeButtonHandler);
-  //   this._subscribeOnEvents();
-  // }
+  recoveryListeners() {
+    this.setCloseButtonClickHandler(this._closeButtonHandler);
+    this.setSubmitHandler(this._submitHandler);
+  }
 
-  // reset() {
-  //   const film = this._film;
-  //
-  //   this._filmSettings = {
-  //     isWatchList: film.isWatchList,
-  //     isWatched: film.isWatched,
-  //     isFavorite: film.isFavorite,
-  //   };
-  //
-  //   this._emojiName = ``;
-  //
-  //   this.rerender();
-  // }
-  //
-  // rerender() {
-  //   super.rerender();
-  // }
+  getDataNewComment() {
+    const form = this.getElement().querySelector(`.film-details__inner`);
+    const formData = new FormData(form);
+
+    return {
+      emoji: formData.get(`comment-emoji`) ? formData.get(`comment-emoji`) : ``,
+      text: formData.get(`comment`) ? formData.get(`comment`) : ``,
+    };
+  }
 }

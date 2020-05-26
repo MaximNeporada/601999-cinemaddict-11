@@ -29,4 +29,19 @@ export const FilterType = {
   // STATS: `statistic`,
 };
 
+export const COMMENT = {
+  name: [
+    `Tim Macoveev`,
+    `John Doe`,
+    `Ira  Woods`,
+    `Jerome Chandler`,
+    `David Harrell`,
+  ],
+  text: [
+    `Interesting setting and a good cast`,
+    `Booooooooooring`,
+    `Very very old. Meh`,
+    `Almost two hours? Seriously?`,
+  ],
+};
 
