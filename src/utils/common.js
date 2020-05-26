@@ -83,6 +83,16 @@ const getTop2FilmsByComments = (arrayFilms) => {
   return sortArrayFilmsСcomments.splice(newArrayFilms.length - 2, newArrayFilms.length);
 };
 
+// создание рандомной даты в формате MM-DD-YYYY
+
+const getRandomDate = (yearStart = 1900) => {
+  let date = new Date();
+  const day = getRandomInteger(1, 31);
+  const month = getRandomInteger(1, 12);
+  const year = getRandomInteger(yearStart, date.getFullYear());
+  return getStringFormatDate(day, month, year);
+};
+
 export {
   formatRunTime,
   getRandomInteger,
@@ -92,6 +102,7 @@ export {
   getStringFormatDate,
   getStringArray,
   getTop2FilmsByRating,
-  getTop2FilmsByComments
+  getTop2FilmsByComments,
+  getRandomDate,
 };
 

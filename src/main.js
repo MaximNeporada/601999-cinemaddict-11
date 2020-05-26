@@ -1,37 +1,33 @@
 import {Profile} from './components/profile.js';
-import {MainNavigation} from './components/main-navigation';
 import {render} from "./utils/render";
 import {generateFilms} from "./mock/film-cards";
-import {generateFilters} from "./mock/filter";
 import {PageController} from "./controllers/page-controller";
+import {MoviesModel} from "./models/movies";
+import {FilterController} from "./controllers/filter-controller";
 
-const FILMS_LIST_CARD_COUNT = 24;
+const FILMS_LIST_CARD_COUNT = 26;
 
 const siteHeaderElement = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
 const siteFooterElement = document.querySelector(`.footer`);
 
 const films = generateFilms(FILMS_LIST_CARD_COUNT);
-const filters = generateFilters(films);
-
-const countWatched = filters.find((it) => it.id === `history`).count;
-
-const renderFilters = (filtersObject) => {
-  const filtersComponent = new MainNavigation(filtersObject);
-  render(siteMainElement, filtersComponent);
-};
+const moviesModel = new MoviesModel();
+moviesModel.setMovies(films);
 
 // рендер профиля
-const profileComponent = new Profile(countWatched);
+const profileComponent = new Profile();
 render(siteHeaderElement, profileComponent);
 
 // рендер фильтров
-renderFilters(filters);
+const filterController = new FilterController(siteMainElement, moviesModel);
+filterController.render();
+// renderFilters(filters);
 
 // рендер фильмов
-const pageFilmsController = new PageController(siteMainElement);
-pageFilmsController.render(films);
+const pageFilmsController = new PageController(siteMainElement, moviesModel);
+pageFilmsController.render();
 
 // рендер футера
 const siteFooterStatistics = siteFooterElement.querySelector(`.footer__statistics`);
-siteFooterStatistics.textContent = `${films.length}`;
+siteFooterStatistics.textContent = `${moviesModel.getMovies().length}`;
