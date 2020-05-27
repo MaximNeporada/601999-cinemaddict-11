@@ -1,4 +1,4 @@
-import {getTasksByFilter} from "../utils/filter.js";
+import {getTasksByFilter, getWatchedFilms} from "../utils/filter.js";
 import {FilterType} from "../const";
 
 export class MoviesModel {
@@ -49,7 +49,15 @@ export class MoviesModel {
     this._callHandlers(this._filterChangeHandlers);
   }
 
+  getFilter() {
+    return this._activeFilterType;
+  }
+
   setFilterChangeHandler(handler) {
     this._filterChangeHandlers.push(handler);
+  }
+
+  getFilmsWatchedCount() {
+    return getWatchedFilms(this.getMoviesAll()).length;
   }
 }

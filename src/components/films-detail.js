@@ -1,8 +1,8 @@
 // компонент Подробной информации о фильме (попап)
 import {AbstractSmartComponent} from "./abstract-smart-component";
-import {getStringArray} from '../utils/common';
+import {CONTROL_BUTTON} from './../const';
+import {formatRunTime, getStringArray} from '../utils/common';
 import moment from "moment";
-import {CONTROL_BUTTON, EMOJIES} from './../const';
 
 // создания html Постера
 const filmDetailPosterMarkup = (film) => {
@@ -53,7 +53,7 @@ const filmDetailInfoMarkup = (film) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Runtime</td>
-                  <td class="film-details__cell">${runTime}</td>
+                  <td class="film-details__cell">${formatRunTime(runTime)}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Country</td>
@@ -79,42 +79,6 @@ const controlButtonMarkup = (controlButton, isChecked) => {
     <input type="checkbox" class="film-details__control-input visually-hidden" id="${id}" name="${id}" ${isChecked ? `checked` : ``}>
     <label for="${id}" class="film-details__control-label film-details__control-label--${id}">${text}</label>
   `);
-};
-
-// создания html списка коментариев
-const commentsListMarkup = (comment) => {
-  const {name, date, text, emoji} = comment;
-  const dateString = moment(date).fromNow();
-  return (`
-          <li class="film-details__comment">
-            <span class="film-details__comment-emoji">
-              <img src="./images/emoji/${emoji}.png" width="55" height="55" alt="emoji-${emoji}">
-            </span>
-            <div>
-              <p class="film-details__comment-text">${text}</p>
-              <p class="film-details__comment-info">
-                <span class="film-details__comment-author">${name}</span>
-                <span class="film-details__comment-day">${dateString}</span>
-                <button class="film-details__comment-delete">Delete</button>
-              </p>
-            </div>
-          </li>
-  `);
-};
-
-// создания html элемента эмоции
-const emojieMarkup = (emoji, isChecked) => {
-  return (`
-      <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emoji}" value="${emoji}" ${isChecked ? `checked` : ``} >
-      <label class="film-details__emoji-label" for="emoji-${emoji}">
-        <img src="./images/emoji/${emoji}.png" width="30" height="30" alt="emoji">
-      </label>
-  `);
-};
-
-
-const parseFormData = () => {
-
 };
 
 // создания html детальной карточки товара

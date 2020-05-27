@@ -1,5 +1,5 @@
 import {AbstractComponent} from "./abstract-component";
-import {getRandomArrayItem} from "../utils/common";
+import {formatRunTime, getRandomArrayItem} from "../utils/common";
 import moment from "moment";
 import {MAX_CARD_DESCRIPTION_LENGTH, CONTROL_BUTTON} from "./../const";
 
@@ -38,7 +38,7 @@ const createFilmCardTemplate = (film) =>{
       <p class="film-card__rating">${rating}</p>
       <p class="film-card__info">
         <span class="film-card__year">${releaseYear}</span>
-        <span class="film-card__duration">${runTime}</span>
+        <span class="film-card__duration">${formatRunTime(runTime)}</span>
         <span class="film-card__genre">${getRandomArrayItem(genres)}</span>
       </p>
       <img src="${poster}" alt="" class="film-card__poster">

@@ -6,7 +6,7 @@ import {encode} from "he";
 const commentsListMarkup = (comment) => {
   const {name, date, text: currentText, emoji} = comment;
   const dateString = moment(date).fromNow();
-  const imageEmoji = (emoji) => {
+  const imageEmoji = () => {
     if (emoji) {
       return (`<img src="./images/emoji/${emoji}.png" width="55" height="55" alt="emoji-${emoji}">`);
     }

@@ -1,9 +1,8 @@
-import {Profile} from './components/profile.js';
-import {render} from "./utils/render";
 import {generateFilms} from "./mock/film-cards";
 import {PageController} from "./controllers/page-controller";
 import {MoviesModel} from "./models/movies";
 import {FilterController} from "./controllers/filter-controller";
+import {ProfileController} from "./controllers/profile-controller";
 
 const FILMS_LIST_CARD_COUNT = 26;
 
@@ -16,15 +15,14 @@ const moviesModel = new MoviesModel();
 moviesModel.setMovies(films);
 
 // рендер профиля
-const profileComponent = new Profile();
-render(siteHeaderElement, profileComponent);
+const profileComponent = new ProfileController(siteHeaderElement, moviesModel);
+profileComponent.render();
 
 // рендер фильтров
 const filterController = new FilterController(siteMainElement, moviesModel);
 filterController.render();
-// renderFilters(filters);
 
-// рендер фильмов
+// // рендер фильмов
 const pageFilmsController = new PageController(siteMainElement, moviesModel);
 pageFilmsController.render();
 

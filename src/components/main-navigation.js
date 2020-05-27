@@ -1,6 +1,5 @@
 //  компонент Меню (фильтры и статистика);
 import {AbstractComponent} from "./abstract-component";
-import {FilterType} from "../const";
 
 const filtersName = [
   {
@@ -27,7 +26,16 @@ const returnNameFilter = (id) => {
     return element.name;
   }
   return ``;
-}
+};
+
+const isStatisticActive = (filters) => {
+  const isFilterChecked = filters.find((filter) => filter.checked);
+  if (isFilterChecked) {
+    return false;
+  }
+
+  return true;
+};
 
 const createFilterMarkup = (filter) => {
   const {id, count, checked} = filter;
@@ -46,12 +54,13 @@ export const createFilterTemplate = (filters) => {
 };
 
 const createMainNavigationTemplate = (filters) => {
+  const isStatistic = isStatisticActive(filters);
   return (
     `<nav class="main-navigation">
         <div class="main-navigation__items">
           ${createFilterTemplate(filters)}
         </div>
-        <a href="#stats" class="main-navigation__additional" data-filter-type="statistic">Stats</a>
+        <a href="#stats" class="main-navigation__additional ${isStatistic ? `main-navigation__item--active` : ``}" data-filter-type="statistic">Stats</a>
     </nav>`
   );
 };
@@ -79,6 +88,17 @@ export class MainNavigation extends AbstractComponent {
 
         handler(filterType);
       });
+    });
+  }
+
+  setFilterChangeStatisticHandler(handler) {
+    const statisticLinks = this.getElement().querySelector(`.main-navigation__additional`);
+    statisticLinks.addEventListener(`click`, function (evt) {
+      evt.preventDefault();
+      if (evt.target.tagName !== `A`) {
+        return;
+      }
+      handler();
     });
   }
 }
