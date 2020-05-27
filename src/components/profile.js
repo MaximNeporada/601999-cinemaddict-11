@@ -6,7 +6,7 @@
 // от 21 и выше — movie buff;*/
 import {AbstractComponent} from "./abstract-component";
 
-const getProfileRaiting = (filmsCountWatched) => {
+export const getProfileRaiting = (filmsCountWatched) => {
   switch (true) {
     case filmsCountWatched === 0 :
       return ``;
@@ -31,9 +31,9 @@ export const createProfileTemplate = (filmsCountWatched) => {
 };
 
 export class Profile extends AbstractComponent {
-  constructor() {
+  constructor(count) {
     super();
-    this._filmCount = 0;
+    this._filmCount = count;
   }
 
   getTemplate() {

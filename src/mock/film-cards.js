@@ -1,5 +1,6 @@
-import {formatRunTime, getRandomInteger, getRandomArrayItem, getRandomArray, getStringArray, getRandomDate} from '../utils/common';
+import {getRandomInteger, getRandomArrayItem, getRandomArray, getStringArray, getRandomDate} from '../utils/common';
 import {generateCommentList} from "./comments";
+import moment from "moment";
 
 // объекты с массивыми для генерации данных
 const FILM_CARD = {
@@ -108,13 +109,14 @@ const generateFilm = () => {
     writes: getRandomArray(FILM_CARD.peoples, getRandomInteger(1, 3)),
     actors: getRandomArray(FILM_CARD.peoples, getRandomInteger(1, 3)),
     releaseDate: getRandomDate(),
-    runTime: formatRunTime(Math.random() * 10000),
+    runTime: Math.random() * 10000,
     country: getRandomArray(FILM_CARD.country, getRandomInteger(1, 2)),
     genres: getRandomArray(FILM_CARD.genres, getRandomInteger(1, 3)),
     description: getStringArray(descriptions, ` `),
     poster: getRandomArrayItem(FILM_CARD.posters),
     age: getRandomArrayItem(FILM_CARD.age),
     comments: generateCommentList(getRandomInteger(0, 15)),
+    watchedDate: moment(getRandomDate(2020)),
     isWatchList: true,
     isWatched: false,
     isFavorite: true,

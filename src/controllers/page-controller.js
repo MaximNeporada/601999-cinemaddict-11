@@ -1,14 +1,13 @@
 import {Films} from "../components/films";
 import {FilmsList} from "../components/films-list";
 import {NoFilms} from "../components/no-films";
-
 import {Sort, SortType} from "../components/sort";
-
 import {FilmsShowMore} from "../components/button-show-more";
 import {FilmsListExtra} from "../components/films-list-extra";
 import {removeComponent, render} from "../utils/render";
 import {getTop2FilmsByComments, getTop2FilmsByRating} from "../utils/common";
 import {MovieController} from "./movie-controller";
+import {StatisticComponent} from "../components/statistic";
 
 
 const FILMS_LIST = {
@@ -59,6 +58,8 @@ export class PageController {
     this._movieModel = moviesModel;
     this._showingFilmsCount = FILMS_LIST.CARD_COUNT_ON_START;
     this._showedFilmControllers = [];
+
+    this._statisticComponent = new StatisticComponent(this._movieModel.getMoviesAll());
 
     this._sortComponent = new Sort();
     this._filmsComponent = new Films();
@@ -122,6 +123,7 @@ export class PageController {
     const controllerTypes = [this._showedFilmControllers];
     if (isSuccess) {
       controllerTypes.forEach((controllerType) => this._renderControllerNewData(controllerType, idData, newData));
+      this._statisticComponent.rerender(this._movieModel.getMoviesAll());
     }
   }
 
@@ -153,7 +155,8 @@ export class PageController {
   }
 
   _onFilterChange() {
-    this._sortComponent.setSortDefault()
+    this._sortComponent.setSortDefault();
+    this._checkFilterActive();
     this._updateFilms(FILMS_LIST.CARD_COUNT_ON_START);
   }
 
@@ -161,9 +164,24 @@ export class PageController {
     this._showedFilmControllers.forEach((it) => it.setDefaultView());
   }
 
+  _checkFilterActive() {
+    const filterActive = this._movieModel.getFilter();
+    if (filterActive === `statistic`) {
+      this._statisticComponent.show();
+      this._filmsComponent.hide();
+      this._sortComponent.hide();
+    } else {
+      this._statisticComponent.hide();
+      this._filmsComponent.show();
+      this._sortComponent.show();
+    }
+  }
+
+
   render() {
     const films = this._movieModel.getMovies();
 
+    this._checkFilterActive();
     render(this._container, this._sortComponent);
     render(this._container, this._filmsComponent);
 
@@ -191,5 +209,7 @@ export class PageController {
     // рендер блоков «Top Comments»
     render(this._filmsComponent.getElement(), this._topCommentsComponent);
     renderTopBLock(this._topCommentsComponent, getTop2FilmsByComments);
+
+    render(this._container, this._statisticComponent);
   }
 }

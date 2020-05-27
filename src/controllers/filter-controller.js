@@ -13,6 +13,7 @@ export class FilterController {
 
     this._onDataChange = this._onDataChange.bind(this);
     this._onFilterChange = this._onFilterChange.bind(this);
+    this._onStatisticHanler = this._onStatisticHanler.bind(this);
 
     this._moviesModel.setDataChangeHandler(this._onDataChange);
   }
@@ -32,6 +33,7 @@ export class FilterController {
 
     this._filterComponent = new MainNavigation(filters);
     this._filterComponent.setFilterChangeHanlder(this._onFilterChange);
+    this._filterComponent.setFilterChangeStatisticHandler(this._onStatisticHanler);
 
     if (oldComponent) {
       replace(this._filterComponent, oldComponent);
@@ -43,6 +45,12 @@ export class FilterController {
   _onFilterChange(filterType) {
     this._moviesModel.setFilter(filterType);
     this._activeFilterType = filterType;
+    this._onDataChange();
+  }
+
+  _onStatisticHanler() {
+    this._moviesModel.setFilter(`statistic`);
+    this._activeFilterType = `statistic`;
     this._onDataChange();
   }
 
