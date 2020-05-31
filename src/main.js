@@ -1,18 +1,19 @@
-import {generateFilms} from "./mock/film-cards";
 import {PageController} from "./controllers/page-controller";
 import {MoviesModel} from "./models/movies";
 import {FilterController} from "./controllers/filter-controller";
 import {ProfileController} from "./controllers/profile-controller";
+import API from "./api";
 
-const FILMS_LIST_CARD_COUNT = 26;
+const AUTHORIZATION = `Basic asdiu124iad123`;
+const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
 const siteHeaderElement = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
 const siteFooterElement = document.querySelector(`.footer`);
 
-const films = generateFilms(FILMS_LIST_CARD_COUNT);
+
+const api = new API(END_POINT, AUTHORIZATION);
 const moviesModel = new MoviesModel();
-moviesModel.setMovies(films);
 
 // рендер профиля
 const profileComponent = new ProfileController(siteHeaderElement, moviesModel);
@@ -23,9 +24,15 @@ const filterController = new FilterController(siteMainElement, moviesModel);
 filterController.render();
 
 // // рендер фильмов
-const pageFilmsController = new PageController(siteMainElement, moviesModel);
-pageFilmsController.render();
+const pageFilmsController = new PageController(siteMainElement, moviesModel, api);
+// pageFilmsController.render();
 
 // рендер футера
 const siteFooterStatistics = siteFooterElement.querySelector(`.footer__statistics`);
 siteFooterStatistics.textContent = `${moviesModel.getMovies().length}`;
+
+api.getFilms()
+  .then((films) => {
+    moviesModel.setMovies(films);
+    pageFilmsController.render();
+  });

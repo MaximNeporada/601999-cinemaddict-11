@@ -13,7 +13,7 @@ const commentsListMarkup = (comment) => {
     return ``;
   };
 
-  const text = encode(currentText);
+  const text = currentText ? encode(currentText) : ``;
 
   return (
     `<li class="film-details__comment">

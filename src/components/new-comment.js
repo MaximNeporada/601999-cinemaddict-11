@@ -1,6 +1,5 @@
 import {EMOJIES} from "../const";
 import {AbstractSmartComponent} from "./abstract-smart-component";
-import {encode} from "he";
 
 // создания html элемента эмоции
 const emojieMarkup = (emoji, isChecked) => {
@@ -54,8 +53,7 @@ export class NewComment extends AbstractSmartComponent {
   }
 
   getTemplate() {
-    const encodeText = encode(this._valueTextare);
-    return newCommentMarkup(this._emojiName, encodeText);
+    return newCommentMarkup(this._emojiName, this._valueTextare);
   }
 
   _subscribeOnEvents() {
@@ -63,12 +61,11 @@ export class NewComment extends AbstractSmartComponent {
     element.querySelector(`.film-details__emoji-list`)
       .addEventListener(`change`, (evt) => {
         this._emojiName = evt.target.value;
-
         this.rerender();
       });
 
     element.querySelector(`.film-details__comment-input`).addEventListener(`input`, (evt)=>{
-      this._valueTextare = encode(evt.target.value);
+      this._valueTextare = evt.target.value;
     });
   }
 
