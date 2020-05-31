@@ -1,13 +1,11 @@
 import {Films} from "../components/films";
 import {FilmsList} from "../components/films-list";
+import {FilmsShowMore} from "../components/button-show-more";
+import {MovieController} from "./movie-controller";
 import {NoFilms} from "../components/no-films";
 import {Sort, SortType} from "../components/sort";
-import {FilmsShowMore} from "../components/button-show-more";
-import {FilmsListExtra} from "../components/films-list-extra";
-import {removeComponent, render} from "../utils/render";
-import {getTop2FilmsByComments, getTop2FilmsByRating} from "../utils/common";
-import {MovieController} from "./movie-controller";
 import {StatisticComponent} from "../components/statistic";
+import {removeComponent, render} from "../utils/render";
 
 
 const FILMS_LIST = {
@@ -68,8 +66,8 @@ export class PageController {
     this._noFilmsComponent = new NoFilms();
     this._filmsListComponent = new FilmsList();
     this._showMoreComponent = new FilmsShowMore();
-    this._topRatedComponent = new FilmsListExtra(FILMS_LIST.TOP_RATING);
-    this._topCommentsComponent = new FilmsListExtra(FILMS_LIST.TOP_COMMENTS);
+    // this._topRatedComponent = new FilmsListExtra(FILMS_LIST.TOP_RATING);
+    // this._topCommentsComponent = new FilmsListExtra(FILMS_LIST.TOP_COMMENTS);
 
     this._filmListContainerElement = this._filmsListComponent.getElement().querySelector(`.films-list__container`);
 

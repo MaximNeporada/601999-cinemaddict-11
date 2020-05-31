@@ -3,7 +3,6 @@ import {AbstractSmartComponent} from "./abstract-smart-component";
 import {CONTROL_BUTTON} from './../const';
 import {formatRunTime, getStringArray} from '../utils/common';
 import moment from "moment";
-import {encode} from "he";
 
 // создания html Постера
 const filmDetailPosterMarkup = (film) => {
@@ -120,9 +119,6 @@ export class FilmDetail extends AbstractSmartComponent {
       isWatched: this._film.isWatched,
       isFavorite: this._film.isFavorite,
     };
-
-    this._emojiName = ``;
-
 
     this._closeButtonHandler = null;
     this._submitHandler = null;

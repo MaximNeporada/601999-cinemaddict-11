@@ -3,10 +3,8 @@ import FilmModel from "../models/movie";
 import {FilmDetail} from "../components/films-detail";
 import {render, replace, removeComponent} from "../utils/render";
 import {CommentsBlockController} from "./comments-block-controller";
-import {CONTROL_BUTTON, COMMENT} from './../const';
+import {CONTROL_BUTTON} from './../const';
 import {CommentsModel} from "../models/comments";
-import Comment from "../models/comment";
-import {getRandomArrayItem} from "../utils/common";
 import {encode} from "he";
 
 

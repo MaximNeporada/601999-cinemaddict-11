@@ -1,9 +1,9 @@
 import {AbstractSmartComponent} from "./abstract-smart-component";
 import Chart from "chart.js";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import moment from "moment";
-import {getWatchedFilms} from "../utils/filter";
 import {getProfileRaiting} from "./profile";
+import {getWatchedFilms} from "../utils/filter";
+import moment from "moment";
 
 const BAR_HEIGHT = 50;
 const FILTER_ID_PREFIX = `statistic-`;
@@ -141,7 +141,6 @@ export class StatisticComponent extends AbstractSmartComponent {
   }
 
   rerender(films) {
-    console.log(films, `statistic`);
     this._films = films;
     this._filteredWatchedFilms = this._getFilteredDateFilms();
     this._profileRank = getProfileRaiting(this._filteredWatchedFilms.length);
