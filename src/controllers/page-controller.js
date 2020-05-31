@@ -50,10 +50,11 @@ const renderFilms = (films, filmsList, onDataChange, onViewChange, api) => {
 };
 
 export class PageController {
-  constructor(container, moviesModel, api) {
+  constructor(container, moviesModel, api, siteFooterStatistics) {
     this._container = container;
     this._movieModel = moviesModel;
     this._api = api;
+    this._siteFooterStatistics = siteFooterStatistics;
 
     this._showingFilmsCount = FILMS_LIST.CARD_COUNT_ON_START;
     this._showedFilmControllers = [];
@@ -126,6 +127,8 @@ export class PageController {
         if (isSuccess) {
           controllerTypes.forEach((controllerType) => this._renderControllerNewData(controllerType, idData, newData));
           this._statisticComponent.rerender(this._movieModel.getMoviesAll());
+          this._checkFilterActive();
+          this._siteFooterStatistics.textContent = this._movieModel.getMoviesAll().length;
         }
       });
   }
@@ -171,6 +174,7 @@ export class PageController {
     const filterActive = this._movieModel.getFilter();
     if (filterActive === `statistic`) {
       this._statisticComponent.show();
+      this._statisticComponent.renderChart();
       this._filmsComponent.hide();
       this._sortComponent.hide();
     } else {
@@ -183,8 +187,10 @@ export class PageController {
 
   render() {
     const films = this._movieModel.getMovies();
-    this._statisticComponent = new StatisticComponent(this._movieModel.getMoviesAll());
-    this._checkFilterActive();
+    const allFilms = this._movieModel.getMoviesAll();
+
+    this._statisticComponent = new StatisticComponent(allFilms);
+
     render(this._container, this._sortComponent);
     render(this._container, this._filmsComponent);
 
@@ -198,20 +204,7 @@ export class PageController {
     this._renderShowMoreButton();
 
     render(this._container, this._statisticComponent);
-    // // функция рендера топ блоков с рендером карточек
-    // const renderTopBLock = (component, sortFunc) => {
-    //   const siteFilmsExtraContainer = component.getElement().querySelector(`.films-list__container`);
-    //   const topFilms = sortFunc(films);
-    //
-    //   renderFilms(topFilms, siteFilmsExtraContainer, this._onDataChange, this._onViewChange);
-    // };
-
-    // // рендер блоков «Top rated»
-    // render(this._filmsComponent.getElement(), this._topRatedComponent);
-    // renderTopBLock(this._topRatedComponent, getTop2FilmsByRating);
-    //
-    // // рендер блоков «Top Comments»
-    // render(this._filmsComponent.getElement(), this._topCommentsComponent);
-    // renderTopBLock(this._topCommentsComponent, getTop2FilmsByComments);
+    this._checkFilterActive();
+    this._siteFooterStatistics.textContent = allFilms.length;
   }
 }

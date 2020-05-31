@@ -10,7 +10,7 @@ const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 const siteHeaderElement = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
 const siteFooterElement = document.querySelector(`.footer`);
-
+const siteFooterStatistics = siteFooterElement.querySelector(`.footer__statistics`);
 
 const api = new API(END_POINT, AUTHORIZATION);
 const moviesModel = new MoviesModel();
@@ -24,12 +24,7 @@ const filterController = new FilterController(siteMainElement, moviesModel);
 filterController.render();
 
 // // рендер фильмов
-const pageFilmsController = new PageController(siteMainElement, moviesModel, api);
-// pageFilmsController.render();
-
-// рендер футера
-const siteFooterStatistics = siteFooterElement.querySelector(`.footer__statistics`);
-siteFooterStatistics.textContent = `${moviesModel.getMovies().length}`;
+const pageFilmsController = new PageController(siteMainElement, moviesModel, api, siteFooterStatistics);
 
 api.getFilms()
   .then((films) => {
