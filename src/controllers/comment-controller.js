@@ -24,7 +24,13 @@ export class CommentController {
 
   _onDeleteButtonClick(evt) {
     evt.preventDefault();
-    this._onDataChange(this._comment, null);
+    evt.target.setAttribute(`disabled`, `true`);
+    evt.target.textContent = `Deleting...`;
+    const commentObj = {
+      comment: this._comment,
+      commentComponent: this._commentComponent,
+    };
+    this._onDataChange(commentObj, null);
   }
 
   destroy() {

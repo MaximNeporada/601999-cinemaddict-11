@@ -60,6 +60,23 @@ export class CommentsBlockController {
     this._newComment.reset();
   }
 
+  blockedNewComment() {
+    this._newComment.blockedForm();
+  }
+
+  unBlockedNewComment() {
+    this._newComment.unBlockedForm();
+  }
+
+  failSendForm() {
+    this.unBlockedNewComment();
+    this._newComment.animationFail();
+  }
+
+  resetFailSendForm() {
+    this._newComment.resetFail();
+  }
+
   destroy() {
     removeComponent(this._commentListComponent);
     removeComponent(this._newComment);

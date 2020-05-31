@@ -104,6 +104,16 @@ const getRandomDate = (yearStart = 1900) => {
   return getStringFormatDate(day, month, year);
 };
 
+const shakeAnimation = (element) => {
+  const SHAKE_ANIMATION_TIMEOUT = 600;
+
+  element.style.animation = `shake ${SHAKE_ANIMATION_TIMEOUT / 1000}s`;
+
+  setTimeout(() => {
+    element.style.animation = ``;
+  }, SHAKE_ANIMATION_TIMEOUT);
+};
+
 export {
   formatRunTime,
   getRandomInteger,
@@ -115,5 +125,6 @@ export {
   getTop2FilmsByRating,
   getTop2FilmsByComments,
   getRandomDate,
+  shakeAnimation,
 };
 
