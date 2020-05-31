@@ -45,7 +45,8 @@ export class CommentsBlockController {
   _renderComments(comments) {
     this._removeComments();
     if (comments.length > 0) {
-      const newComment = renderComment(comments, this._commentListContainer, this._onDataChange);
+      const sortComment = comments.sort((a, b) => new Date(a.date) - new Date(b.date));
+      const newComment = renderComment(sortComment, this._commentListContainer, this._onDataChange);
       this._showedCommentsComponent = newComment;
     }
   }

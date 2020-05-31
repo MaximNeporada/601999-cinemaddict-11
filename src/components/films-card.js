@@ -25,7 +25,7 @@ const controlButtonMarkup = (controlButton, isChecked) => {
 };
 
 const createFilmCardTemplate = (film) =>{
-  const {name, rating, releaseDate, runTime, genres, poster, comments, description, isWatchList, isWatched, isFavorite} = film;
+  const {title, rating, releaseDate, runTime, genres, poster, comments, description, isWatchList, isWatched, isFavorite} = film;
   const releaseYear = moment(releaseDate).format(`YYYY`);
   const shortDescription = getShortDescription(description);
   const watchListButton = controlButtonMarkup(CONTROL_BUTTON.watchList, isWatchList);
@@ -34,7 +34,7 @@ const createFilmCardTemplate = (film) =>{
 
   return (
     `<article class="film-card">
-      <h3 class="film-card__title">${name}</h3>
+      <h3 class="film-card__title">${title}</h3>
       <p class="film-card__rating">${rating}</p>
       <p class="film-card__info">
         <span class="film-card__year">${releaseYear}</span>

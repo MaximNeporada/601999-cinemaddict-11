@@ -11,14 +11,18 @@ const getRandomInteger = function (min, max) {
 
 // функция возвращает рандомный элемент из массива
 const getRandomArrayItem = (arr) => {
-  const randomIndex = arr.length > 1 ? getRandomInteger(0, arr.length - 1) : arr[0];
+  if (arr) {
+    const randomIndex = arr.length > 1 ? getRandomInteger(0, arr.length - 1) : arr[0];
 
-  return arr[randomIndex] || ``;
+    return arr[randomIndex] || ``;
+  }
+
+  return ``;
 };
 
 // функция возвращает рандомный массив с заданной или той же длины
 const getRandomArray = (arr, lengthNewArr) => {
-  let newArr = [...arr];
+  let newArr = arr ? [...arr] : [];
 
   for (let i = newArr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -48,12 +52,19 @@ const getStringFormatDate = (day, month, year) => {
 
 // функция возвращает строку с элементами массива через ,
 const getStringArray = (arr, symbolConcat = `, `) => {
-  return arr.reduce((acc, element, index) => {
-    if (index === 0) {
-      return `${element}`;
-    }
-    return `${acc}${symbolConcat}${element}`;
-  }, ``);
+  let string = ``;
+
+  if (arr) {
+    const array = Array.from(arr);
+    array.forEach((element, index) => {
+      if (index === 0) {
+        string = `${element}`;
+      }
+      string = `${string}${symbolConcat}${element}`;
+    });
+  }
+
+  return string;
 };
 
 // функция нахождения топ 2 фильма по рейтингу

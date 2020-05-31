@@ -141,6 +141,7 @@ export class StatisticComponent extends AbstractSmartComponent {
   }
 
   rerender(films) {
+    console.log(films, `statistic`);
     this._films = films;
     this._filteredWatchedFilms = this._getFilteredDateFilms();
     this._profileRank = getProfileRaiting(this._filteredWatchedFilms.length);

@@ -3,30 +3,31 @@ import {AbstractSmartComponent} from "./abstract-smart-component";
 import {CONTROL_BUTTON} from './../const';
 import {formatRunTime, getStringArray} from '../utils/common';
 import moment from "moment";
+import {encode} from "he";
 
 // создания html Постера
 const filmDetailPosterMarkup = (film) => {
   const {poster, age} = film;
   return (`<div class="film-details__poster">
               <img class="film-details__poster-img" src="${poster}" alt="">
-              <p class="film-details__age">${age}</p>
+              <p class="film-details__age">${age}+</p>
            </div>
           `);
 };
 
 // создания html информации о фильме
 const filmDetailInfoMarkup = (film) => {
-  const {name, originalName, rating, director, writes, actors, releaseDate, runTime, country, genres, description} = film;
+  const {title, originalTitle, rating, director, writers, actors, releaseDate, runTime, country, genres, description} = film;
   const releaseDateFormat = moment(releaseDate).format(`DD MMMM YYYY`);
-
+  const makeArrayGenres = genres ? genres : [];
   return (`
             <div class="film-details__info-wrap">
             ${filmDetailPosterMarkup(film)}
             <div class="film-details__info">
               <div class="film-details__info-head">
                 <div class="film-details__title-wrap">
-                  <h3 class="film-details__title">${name}</h3>
-                  <p class="film-details__title-original">${originalName}</p>
+                  <h3 class="film-details__title">${title}</h3>
+                  <p class="film-details__title-original">${originalTitle}</p>
                 </div>
 
                 <div class="film-details__rating">
@@ -41,7 +42,7 @@ const filmDetailInfoMarkup = (film) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Writers</td>
-                  <td class="film-details__cell">${getStringArray(writes)}</td>
+                  <td class="film-details__cell">${getStringArray(writers)}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Actors</td>
@@ -57,12 +58,12 @@ const filmDetailInfoMarkup = (film) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Country</td>
-                  <td class="film-details__cell">${getStringArray(country)}</td>
+                  <td class="film-details__cell">${country}</td>
                 </tr>
                 <tr class="film-details__row">
-                    <td class="film-details__term">Genre${genres.length > 1 ? `s` : ``}</td>
+                    <td class="film-details__term">Genre${makeArrayGenres.length > 1 ? `s` : ``}</td>
                     <td class="film-details__cell">
-                        ${genres.map((element) => `<span class="film-details__genre">${element}</span>`)}
+                        ${makeArrayGenres.map((element) => `<span class="film-details__genre">${element}</span>`)}
                     </td>
                 </tr>
               </table>
@@ -166,10 +167,9 @@ export class FilmDetail extends AbstractSmartComponent {
   getDataNewComment() {
     const form = this.getElement().querySelector(`.film-details__inner`);
     const formData = new FormData(form);
-
     return {
-      emoji: formData.get(`comment-emoji`) ? formData.get(`comment-emoji`) : ``,
-      text: formData.get(`comment`) ? formData.get(`comment`) : ``,
+      emoji: formData.get(`comment-emoji`),
+      text: formData.get(`comment`),
     };
   }
 }
