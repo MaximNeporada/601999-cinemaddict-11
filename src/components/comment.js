@@ -1,6 +1,7 @@
 import {AbstractSmartComponent} from "./abstract-smart-component";
-import moment from "moment";
 import {encode} from "he";
+import moment from "moment";
+import {shakeAnimation} from "../utils/common";
 
 // создания html списка коментариев
 const commentsListMarkup = (comment) => {
@@ -44,6 +45,13 @@ export class Comment extends AbstractSmartComponent {
 
   recoveryListeners() {
     return;
+  }
+
+  failDeleteComment() {
+    const buttonDelete = this.getElement().querySelector(`.film-details__comment-delete`);
+    buttonDelete.textContent = `delete`;
+    buttonDelete.removeAttribute(`disabled`);
+    shakeAnimation(this.getElement());
   }
 
   setDeleteButtonClickHandler(handler) {

@@ -122,7 +122,7 @@ export class StatisticComponent extends AbstractSmartComponent {
     this._chartData = getFilmsGenresCount(this._filteredWatchedFilms);
     this._chart = null;
 
-    this._renderChart();
+    this.renderChart();
     this._getSelectedFilterType();
   }
 
@@ -147,7 +147,7 @@ export class StatisticComponent extends AbstractSmartComponent {
     this._chartData = getFilmsGenresCount(this._filteredWatchedFilms);
 
     super.rerender();
-    this._renderChart();
+    this.renderChart();
   }
 
   _getFilteredDateFilms() {
@@ -170,16 +170,17 @@ export class StatisticComponent extends AbstractSmartComponent {
   _getSelectedFilterType() {
     this.getElement().querySelector(`.statistic__filters`).addEventListener(`click`, (evt) => {
       const filterElement = evt.target.control;
-      if (!filterElement) {
+      if (!filterElement || filterElement.hasAttribute(`checked`)) {
         return;
       }
+
       const filter = filterElement.id;
       this._currentFilter = getFilterNameById(filter);
       this.rerender(this._films);
     });
   }
 
-  _renderChart() {
+  renderChart() {
     if (!this._filteredWatchedFilms.length) {
       return;
     }

@@ -183,19 +183,28 @@ export class MovieController {
 
   _onDataChangeComments(oldComment, newComment) {
     if (oldComment === null) {
+      this._commentController.resetFailSendForm();
+      this._commentController.blockedNewComment();
       this._api.createComment(this._film.id, newComment)
         .then((comments) => {
           this._commentsModel.addComment(comments[comments.length - 1]);
           this._commentController.updateComments();
           this._commentController.resetNewComment();
+        })
+        .catch(() => {
+          this._commentController.failSendForm();
         });
     }
 
     if (newComment === null) {
-      this._api.deleteComment(oldComment.id)
+      const oldCommentId = oldComment.comment.id;
+      this._api.deleteComment(oldCommentId)
         .then(() => {
-          this._commentsModel.removeComment(oldComment.id);
+          this._commentsModel.removeComment(oldCommentId);
           this._commentController.updateComments();
+        })
+        .catch(() => {
+          oldComment.commentComponent.failDeleteComment();
         });
     }
   }
