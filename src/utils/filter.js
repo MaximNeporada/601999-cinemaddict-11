@@ -20,8 +20,6 @@ export const getTasksByFilter = (films, filterType) => {
       return getWatchedFilms(films);
     case FilterType.FAVORITE:
       return getFavoriteFilms(films);
-    case FilterType.STATS:
-      return films;
   }
 
   return films;

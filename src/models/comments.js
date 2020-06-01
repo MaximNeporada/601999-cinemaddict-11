@@ -5,7 +5,6 @@ export class CommentsModel {
     this._dataChangeHandlers = [];
   }
 
-
   getComments() {
     return this._comments;
   }

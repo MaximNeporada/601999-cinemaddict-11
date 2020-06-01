@@ -73,6 +73,67 @@ export class PageController {
     this._movieModel.setFilterChangeHandler(this._onFilterChange);
   }
 
+  render() {
+    const films = this._movieModel.getMovies();
+    const allFilms = this._movieModel.getMoviesAll();
+
+    this._statisticComponent = new StatisticComponent(allFilms);
+    render(this._container, this._sortComponent);
+    render(this._container, this._filmsComponent);
+
+    if (!films) {
+      render(this._filmsComponent.getElement(), this._loadingComponent);
+      this._siteFooterStatistics.textContent = ``;
+      return;
+    } else if (films.length === 0) {
+      removeComponent(this._loadingComponent);
+      render(this._filmsComponent.getElement(), this._noFilmsComponent);
+      this._siteFooterStatistics.textContent = 0;
+      return;
+    }
+
+    removeComponent(this._loadingComponent);
+    removeComponent(this._noFilmsComponent);
+    render(this._filmsComponent.getElement(), this._filmsListComponent);
+    this._renderFilms(films.slice(0, this._showingFilmsCount));
+    this._renderShowMoreButton();
+
+    render(this._container, this._statisticComponent);
+    this._checkFilterActive();
+    this._siteFooterStatistics.textContent = allFilms.length;
+  }
+
+  _renderFilms(films) {
+    const newFilms = renderFilms(films, this._filmListContainerElement, this._onDataChange, this._onViewChange, this._api);
+    this._showedFilmControllers = this._showedFilmControllers.concat(newFilms);
+    this._showingFilmsCount = this._showedFilmControllers.length;
+  }
+
+  _checkFilterActive() {
+    const filterActive = this._movieModel.getFilter();
+    if (filterActive === `statistic`) {
+      this._statisticComponent.show();
+      this._statisticComponent.renderChart();
+      this._filmsComponent.hide();
+      this._sortComponent.hide();
+    } else {
+      this._statisticComponent.hide();
+      this._filmsComponent.show();
+      this._sortComponent.show();
+    }
+  }
+
+  _removeFilms() {
+    this._showedFilmControllers.forEach((filmController) => filmController.destroy());
+    this._showedFilmControllers = [];
+  }
+
+  _updateFilms(count) {
+    this._removeFilms();
+    this._renderFilms(this._movieModel.getMovies().slice(0, count));
+    this._renderShowMoreButton();
+  }
+
   _renderShowMoreButton() {
     removeComponent(this._showMoreComponent);
     if (FILMS_LIST.CARD_COUNT_ON_START >= this._movieModel.getMovies().length) {
@@ -109,6 +170,15 @@ export class PageController {
     this._renderShowMoreButton();
   }
 
+  _renderControllerNewData(controllerType, filmId, newData) {
+    const currentController = controllerType.find((controller) => controller.getFilm().id === filmId);
+
+    if (typeof currentController === `undefined`) {
+      return;
+    }
+    currentController.render(newData);
+  }
+
   _onDataChange(oldData, newData) {
     const idData = oldData.id;
     this._api.updateFilm(idData, newData)
@@ -117,38 +187,11 @@ export class PageController {
         const controllerTypes = [this._showedFilmControllers];
         if (isSuccess) {
           controllerTypes.forEach((controllerType) => this._renderControllerNewData(controllerType, idData, newData));
-          this._updateFilms(this._showingFilmsCount);
+          // this._updateFilms(this._showingFilmsCount);
           this._checkFilterActive();
           this._siteFooterStatistics.textContent = this._movieModel.getMoviesAll().length;
         }
       });
-  }
-
-  _renderControllerNewData(controllerType, filmId, newData) {
-    const currentController = controllerType.find((controller) => controller.getFilm().id === filmId);
-
-    if (typeof currentController === `undefined`) {
-      return;
-    }
-
-    currentController.render(newData);
-  }
-
-  _renderFilms(films) {
-    const newFilms = renderFilms(films, this._filmListContainerElement, this._onDataChange, this._onViewChange, this._api);
-    this._showedFilmControllers = this._showedFilmControllers.concat(newFilms);
-    this._showingFilmsCount = this._showedFilmControllers.length;
-  }
-
-  _removeFilms() {
-    this._showedFilmControllers.forEach((filmController) => filmController.destroy());
-    this._showedFilmControllers = [];
-  }
-
-  _updateFilms(count) {
-    this._removeFilms();
-    this._renderFilms(this._movieModel.getMovies().slice(0, count));
-    this._renderShowMoreButton();
   }
 
   _onFilterChange() {
@@ -159,50 +202,5 @@ export class PageController {
 
   _onViewChange() {
     this._showedFilmControllers.forEach((it) => it.setDefaultView());
-  }
-
-  _checkFilterActive() {
-    const filterActive = this._movieModel.getFilter();
-    if (filterActive === `statistic`) {
-      this._statisticComponent.show();
-      this._statisticComponent.renderChart();
-      this._filmsComponent.hide();
-      this._sortComponent.hide();
-    } else {
-      this._statisticComponent.hide();
-      this._filmsComponent.show();
-      this._sortComponent.show();
-    }
-  }
-
-
-  render() {
-    const films = this._movieModel.getMovies();
-    const allFilms = this._movieModel.getMoviesAll();
-
-    this._statisticComponent = new StatisticComponent(allFilms);
-    render(this._container, this._sortComponent);
-    render(this._container, this._filmsComponent);
-
-    if (!films) {
-      render(this._filmsComponent.getElement(), this._loadingComponent);
-      this._siteFooterStatistics.textContent = ``;
-      return;
-    } else if (films.length === 0) {
-      removeComponent(this._loadingComponent);
-      render(this._filmsComponent.getElement(), this._noFilmsComponent);
-      this._siteFooterStatistics.textContent = 0;
-      return;
-    }
-
-    removeComponent(this._loadingComponent);
-    removeComponent(this._noFilmsComponent);
-    render(this._filmsComponent.getElement(), this._filmsListComponent);
-    this._renderFilms(films.slice(0, this._showingFilmsCount));
-    this._renderShowMoreButton();
-
-    render(this._container, this._statisticComponent);
-    this._checkFilterActive();
-    this._siteFooterStatistics.textContent = allFilms.length;
   }
 }
