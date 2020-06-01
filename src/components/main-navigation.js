@@ -1,6 +1,6 @@
 import {AbstractComponent} from "./abstract-component";
 
-const filtersName = [
+const filtersNames = [
   {
     id: `all`,
     name: `All movies`,
@@ -20,7 +20,7 @@ const filtersName = [
 ];
 
 const returnNameFilter = (id) => {
-  const element = filtersName.find((item)=> item.id === id);
+  const element = filtersNames.find((item)=> item.id === id);
   if (element) {
     return element.name;
   }

@@ -26,11 +26,11 @@ export class CommentController {
     evt.preventDefault();
     evt.target.setAttribute(`disabled`, `true`);
     evt.target.textContent = `Deleting...`;
-    const commentObj = {
+    const comment = {
       comment: this._comment,
       commentComponent: this._commentComponent,
     };
-    this._onDataChange(commentObj, null);
+    this._onDataChange(comment, null);
   }
 
   destroy() {

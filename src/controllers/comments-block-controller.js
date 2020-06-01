@@ -22,7 +22,7 @@ export class CommentsBlockController {
     this._newComment = new NewComment();
     this._commentListContainer = this._commentListComponent.getElement();
     this._commentListTitleCountComment = this._commentListComponent.getElement().querySelector(`.film-details__comments-count`);
-    this._showedCommentsComponent = [];
+    this._showedCommentsComponents = [];
 
     this._onDataChange = onDataChange;
   }
@@ -47,13 +47,13 @@ export class CommentsBlockController {
     if (comments.length > 0) {
       const sortComment = comments.sort((a, b) => new Date(a.date) - new Date(b.date));
       const newComment = renderComment(sortComment, this._commentListContainer, this._onDataChange);
-      this._showedCommentsComponent = newComment;
+      this._showedCommentsComponents = newComment;
     }
   }
 
   _removeComments() {
-    this._showedCommentsComponent.forEach((comment) => comment.destroy());
-    this._showedCommentsComponent = [];
+    this._showedCommentsComponents.forEach((comment) => comment.destroy());
+    this._showedCommentsComponents = [];
   }
 
   resetNewComment() {

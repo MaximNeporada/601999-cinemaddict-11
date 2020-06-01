@@ -40,17 +40,17 @@ const getMapGenreCount = (films) => {
     });
   });
 
-  const genreCount = [];
+  const genres = [];
   for (const genreKey of genresAll.keys()) {
-    const objGenre = {
+    const genre = {
       genre: genreKey,
       count: genresAll.get(genreKey)
     };
 
-    genreCount.push(objGenre);
+    genres.push(genre);
   }
 
-  return genreCount;
+  return genres;
 };
 
 const getFilmsGenresCount = (films) => {
