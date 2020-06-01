@@ -25,6 +25,8 @@ filterController.render();
 
 // // рендер фильмов
 const pageFilmsController = new PageController(siteMainElement, moviesModel, api, siteFooterStatistics);
+pageFilmsController.render();
+
 
 api.getFilms()
   .then((films) => {
