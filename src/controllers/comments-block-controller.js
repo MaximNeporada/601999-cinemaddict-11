@@ -27,7 +27,6 @@ export class CommentsBlockController {
     this._onDataChange = onDataChange;
   }
 
-
   render() {
     const comments = this._commentsModel.getComments();
 
@@ -36,24 +35,6 @@ export class CommentsBlockController {
     this._renderComments(comments);
 
     render(this._container, this._newComment);
-  }
-
-  _updateTitleCount(count) {
-    this._commentListTitleCountComment.textContent = count;
-  }
-
-  _renderComments(comments) {
-    this._removeComments();
-    if (comments.length > 0) {
-      const sortComment = comments.sort((a, b) => new Date(a.date) - new Date(b.date));
-      const newComment = renderComment(sortComment, this._commentListContainer, this._onDataChange);
-      this._showedCommentsComponents = newComment;
-    }
-  }
-
-  _removeComments() {
-    this._showedCommentsComponents.forEach((comment) => comment.destroy());
-    this._showedCommentsComponents = [];
   }
 
   resetNewComment() {
@@ -87,5 +68,23 @@ export class CommentsBlockController {
     const comments = this._commentsModel.getComments();
     this._renderComments(comments);
     this._updateTitleCount(comments.length);
+  }
+
+  _updateTitleCount(count) {
+    this._commentListTitleCountComment.textContent = count;
+  }
+
+  _renderComments(comments) {
+    this._removeComments();
+    if (comments.length > 0) {
+      const sortComment = comments.sort((a, b) => new Date(a.date) - new Date(b.date));
+      const newComment = renderComment(sortComment, this._commentListContainer, this._onDataChange);
+      this._showedCommentsComponents = newComment;
+    }
+  }
+
+  _removeComments() {
+    this._showedCommentsComponents.forEach((comment) => comment.destroy());
+    this._showedCommentsComponents = [];
   }
 }

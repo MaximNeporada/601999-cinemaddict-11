@@ -46,6 +46,12 @@ export class MovieController {
     return this._film;
   }
 
+  setDefaultView() {
+    if (this._mode !== Mode.DEFAULT) {
+      this._removeFilmDetail();
+    }
+  }
+
   render(film) {
     const oldFilmComponent = this._filmComponent;
     const oldFilmDetailComponent = this._filmDetailComponent;
@@ -101,12 +107,6 @@ export class MovieController {
       replace(this._filmDetailComponent, oldFilmDetailComponent);
     } else {
       render(this._container, this._filmComponent);
-    }
-  }
-
-  setDefaultView() {
-    if (this._mode !== Mode.DEFAULT) {
-      this._removeFilmDetail();
     }
   }
 

@@ -127,6 +127,15 @@ export class FilmDetail extends AbstractSmartComponent {
     return createFilmDetailTemplate(this._film, this._filmSettings);
   }
 
+  getDataNewComment() {
+    const form = this.getElement().querySelector(`.film-details__inner`);
+    const formData = new FormData(form);
+    return {
+      emoji: formData.get(`comment-emoji`),
+      text: formData.get(`comment`),
+    };
+  }
+
   setCloseButtonClickHandler(handler) {
     const closeButton = this.getElement().querySelector(`.film-details__close-btn`);
     closeButton.addEventListener(`click`, handler);
@@ -157,14 +166,5 @@ export class FilmDetail extends AbstractSmartComponent {
   recoveryListeners() {
     this.setCloseButtonClickHandler(this._closeButtonHandler);
     this.setSubmitHandler(this._submitHandler);
-  }
-
-  getDataNewComment() {
-    const form = this.getElement().querySelector(`.film-details__inner`);
-    const formData = new FormData(form);
-    return {
-      emoji: formData.get(`comment-emoji`),
-      text: formData.get(`comment`),
-    };
   }
 }

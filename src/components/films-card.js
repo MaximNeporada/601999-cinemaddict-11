@@ -3,7 +3,6 @@ import {formatRunTime, getRandomArrayItem} from "../utils/common";
 import moment from "moment";
 import {MAX_CARD_DESCRIPTION_LENGTH, CONTROL_BUTTON} from "./../const";
 
-
 // получаем обрезанную строку если строка > MAX_CARD_DESCRIPTION_LENGTH
 const getShortDescription = (description) => {
   if (description.length > MAX_CARD_DESCRIPTION_LENGTH) {

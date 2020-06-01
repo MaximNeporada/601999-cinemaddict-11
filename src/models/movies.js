@@ -36,14 +36,6 @@ export class MoviesModel {
     return true;
   }
 
-  setDataChangeHandler(handler) {
-    this._dataChangeHandlers.push(handler);
-  }
-
-  _callHandlers(handlers) {
-    handlers.forEach((handler) => handler());
-  }
-
   setFilter(filterType) {
     this._activeFilterType = filterType;
     this._callHandlers(this._filterChangeHandlers);
@@ -51,6 +43,14 @@ export class MoviesModel {
 
   getFilter() {
     return this._activeFilterType;
+  }
+
+  _callHandlers(handlers) {
+    handlers.forEach((handler) => handler());
+  }
+
+  setDataChangeHandler(handler) {
+    this._dataChangeHandlers.push(handler);
   }
 
   setFilterChangeHandler(handler) {

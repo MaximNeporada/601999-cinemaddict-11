@@ -74,7 +74,7 @@ export class MainNavigation extends AbstractComponent {
     return createMainNavigationTemplate(this._filters);
   }
 
-  setFilterChangeHanlder(handler) {
+  setFilterChangeHandlder(handler) {
     const filterLinks = this.getElement().querySelectorAll(`.main-navigation__item`);
     filterLinks.forEach((link)=>{
       link.addEventListener(`click`, (evt) => {

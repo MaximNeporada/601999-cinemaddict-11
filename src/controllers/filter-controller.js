@@ -32,7 +32,7 @@ export class FilterController {
     const oldComponent = this._filterComponent;
 
     this._filterComponent = new MainNavigation(filters);
-    this._filterComponent.setFilterChangeHanlder(this._onFilterChange);
+    this._filterComponent.setFilterChangeHandlder(this._onFilterChange);
     this._filterComponent.setFilterChangeStatisticHandler(this._onStatisticHandler);
 
     if (oldComponent) {

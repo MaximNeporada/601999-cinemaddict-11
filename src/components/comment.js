@@ -1,5 +1,4 @@
 import {AbstractSmartComponent} from "./abstract-smart-component";
-import {decode} from "he";
 import moment from "moment";
 import {shakeAnimation} from "../utils/common";
 

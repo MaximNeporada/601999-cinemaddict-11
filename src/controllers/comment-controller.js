@@ -22,6 +22,10 @@ export class CommentController {
     this._commentComponent.setDeleteButtonClickHandler(this._onDeleteButtonClick);
   }
 
+  destroy() {
+    removeComponent(this._commentComponent);
+  }
+
   _onDeleteButtonClick(evt) {
     evt.preventDefault();
     evt.target.setAttribute(`disabled`, `true`);
@@ -31,9 +35,5 @@ export class CommentController {
       commentComponent: this._commentComponent,
     };
     this._onDataChange(comment, null);
-  }
-
-  destroy() {
-    removeComponent(this._commentComponent);
   }
 }

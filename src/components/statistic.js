@@ -136,10 +136,6 @@ export class StatisticComponent extends AbstractSmartComponent {
     return createStatisticTemplate(this._currentFilter, this._profileRank, watchedFilmsCount, filmDuration, topGenre);
   }
 
-  recoveryListeners() {
-    this._getSelectedFilterType();
-  }
-
   rerender(films) {
     this._films = films;
     this._filteredWatchedFilms = this._getFilteredDateFilms();
@@ -148,36 +144,6 @@ export class StatisticComponent extends AbstractSmartComponent {
 
     super.rerender();
     this.renderChart();
-  }
-
-  _getFilteredDateFilms() {
-    const films = getWatchedFilms(this._films);
-    const filter = this._currentFilter;
-
-    if (filter === FILTERS_STATISTIC.ALL) {
-      return films;
-    }
-    return films.filter((film) => {
-      const watchedDate = moment(film.watchedDate);
-      const dateNow = moment();
-      const unitOfTime = FILTER_MOMENT_UNIT_OF_TIME[filter];
-      const mDateDiff = dateNow.diff(watchedDate, unitOfTime);
-
-      return mDateDiff < 1;
-    });
-  }
-
-  _getSelectedFilterType() {
-    this.getElement().querySelector(`.statistic__filters`).addEventListener(`click`, (evt) => {
-      const filterElement = evt.target.control;
-      if (!filterElement || filterElement.hasAttribute(`checked`)) {
-        return;
-      }
-
-      const filter = filterElement.id;
-      this._currentFilter = getFilterNameById(filter);
-      this.rerender(this._films);
-    });
   }
 
   renderChart() {
@@ -244,4 +210,39 @@ export class StatisticComponent extends AbstractSmartComponent {
       }
     });
   }
+
+  _getFilteredDateFilms() {
+    const films = getWatchedFilms(this._films);
+    const filter = this._currentFilter;
+
+    if (filter === FILTERS_STATISTIC.ALL) {
+      return films;
+    }
+    return films.filter((film) => {
+      const watchedDate = moment(film.watchedDate);
+      const dateNow = moment();
+      const unitOfTime = FILTER_MOMENT_UNIT_OF_TIME[filter];
+      const mDateDiff = dateNow.diff(watchedDate, unitOfTime);
+
+      return mDateDiff < 1;
+    });
+  }
+
+  _getSelectedFilterType() {
+    this.getElement().querySelector(`.statistic__filters`).addEventListener(`click`, (evt) => {
+      const filterElement = evt.target.control;
+      if (!filterElement || filterElement.hasAttribute(`checked`)) {
+        return;
+      }
+
+      const filter = filterElement.id;
+      this._currentFilter = getFilterNameById(filter);
+      this.rerender(this._films);
+    });
+  }
+
+  recoveryListeners() {
+    this._getSelectedFilterType();
+  }
+
 }

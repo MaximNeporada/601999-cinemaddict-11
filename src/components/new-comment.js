@@ -59,23 +59,6 @@ export class NewComment extends AbstractSmartComponent {
     return newCommentMarkup(this._emojiName, this._valueTextare);
   }
 
-  _changeHandlerEmojiList(evt) {
-    this._emojiName = evt.target.value;
-    this.rerender();
-  }
-
-  _inputHandlerCommentInput(evt) {
-    this._valueTextare = evt.target.value;
-  }
-
-  _subscribeOnEvents() {
-    const element = this.getElement();
-    element.querySelector(`.film-details__emoji-list`)
-      .addEventListener(`change`, this._changeHandlerEmojiList);
-
-    element.querySelector(`.film-details__comment-input`).addEventListener(`input`, this._inputHandlerCommentInput);
-  }
-
   blockedForm() {
     const element = this.getElement();
     const radioButton = element.querySelectorAll(`.film-details__emoji-item`);
@@ -125,9 +108,25 @@ export class NewComment extends AbstractSmartComponent {
     this.rerender();
   }
 
-
   rerender() {
     super.rerender();
+  }
+
+  _changeHandlerEmojiList(evt) {
+    this._emojiName = evt.target.value;
+    this.rerender();
+  }
+
+  _inputHandlerCommentInput(evt) {
+    this._valueTextare = evt.target.value;
+  }
+
+  _subscribeOnEvents() {
+    const element = this.getElement();
+    element.querySelector(`.film-details__emoji-list`)
+      .addEventListener(`change`, this._changeHandlerEmojiList);
+
+    element.querySelector(`.film-details__comment-input`).addEventListener(`input`, this._inputHandlerCommentInput);
   }
 
   recoveryListeners() {

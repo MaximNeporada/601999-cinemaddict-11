@@ -32,19 +32,18 @@ export class Sort extends AbstractComponent {
     return this._currentSortType;
   }
 
-  _removeClassActiveSortButtons() {
-    const sortElement = this.getElement().querySelectorAll(`.sort__button`);
-    sortElement.forEach((element) => {
-      element.classList.remove(this._classActive);
-    });
-  }
-
   setSortDefault() {
     this._currentSortType = SortType.DEFAULT;
     this._removeClassActiveSortButtons();
     this.getElement().querySelector(`[data-sort-type="default"]`).classList.add(this._classActive);
   }
 
+  _removeClassActiveSortButtons() {
+    const sortElement = this.getElement().querySelectorAll(`.sort__button`);
+    sortElement.forEach((element) => {
+      element.classList.remove(this._classActive);
+    });
+  }
 
   setSortTypeChangeHandler(handler) {
     this.getElement().addEventListener(`click`, (evt) => {
