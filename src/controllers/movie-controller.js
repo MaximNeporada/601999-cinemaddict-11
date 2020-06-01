@@ -122,7 +122,7 @@ export class MovieController {
     this._bodyElement.removeChild(this._filmDetailComponent.getElement());
     document.removeEventListener(`keydown`, this._onEscKeyDown);
     this._rerender();
-    this._filmDetailComponent.removeCloseButtonClickHandler(this._removeFilmDetail);
+    this._filmDetailComponent.offCloseButtonClickHandler(this._removeFilmDetail);
   }
 
   _onEscKeyDown(evt) {

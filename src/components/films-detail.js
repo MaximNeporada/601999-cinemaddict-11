@@ -133,7 +133,7 @@ export class FilmDetail extends AbstractSmartComponent {
     this._closeButtonHandler = handler;
   }
 
-  removeCloseButtonClickHandler(handler) {
+  offCloseButtonClickHandler(handler) {
     const closeButton = this.getElement().querySelector(`.film-details__close-btn`);
     closeButton.removeEventListener(`click`, handler);
     this._closeButtonHandler = handler;
