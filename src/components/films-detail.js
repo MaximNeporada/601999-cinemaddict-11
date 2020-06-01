@@ -1,6 +1,6 @@
 import {AbstractSmartComponent} from "./abstract-smart-component";
 import {CONTROL_BUTTON} from './../const';
-import {formatRunTime, getStringArray} from '../utils/common';
+import {formatRunTime} from '../utils/common';
 import moment from "moment";
 
 // создания html Постера
@@ -40,11 +40,11 @@ const filmDetailInfoMarkup = (film) => {
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Writers</td>
-                  <td class="film-details__cell">${getStringArray(writers)}</td>
+                  <td class="film-details__cell">${writers.join(`, `)}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Actors</td>
-                  <td class="film-details__cell">${getStringArray(actors)}</td>
+                  <td class="film-details__cell">${actors.join(`, `)}</td>
                 </tr>
                 <tr class="film-details__row">
                   <td class="film-details__term">Release Date</td>

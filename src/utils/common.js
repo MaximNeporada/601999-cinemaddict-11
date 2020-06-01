@@ -20,23 +20,6 @@ const getRandomArrayItem = (arr) => {
   return ``;
 };
 
-// функция возвращает строку с элементами массива через ,
-const getStringArray = (arr, symbolConcat = `, `) => {
-  let string = ``;
-
-  if (arr) {
-    const array = Array.from(arr);
-    array.forEach((element, index) => {
-      if (index === 0) {
-        string = `${element}`;
-      }
-      string = `${string}${symbolConcat}${element}`;
-    });
-  }
-
-  return string;
-};
-
 const shakeAnimation = (element) => {
   const SHAKE_ANIMATION_TIMEOUT = 600;
 
@@ -51,7 +34,6 @@ export {
   formatRunTime,
   getRandomInteger,
   getRandomArrayItem,
-  getStringArray,
   shakeAnimation,
 };
 
