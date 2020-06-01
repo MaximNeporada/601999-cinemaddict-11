@@ -129,7 +129,7 @@ export class StatisticComponent extends AbstractSmartComponent {
   getTemplate() {
     const watchedFilmsCount = this._filteredWatchedFilms.length;
     const topGenre = this._filteredWatchedFilms.length ? this._chartData[0].genre : ``;
-    const filmDuration = this._filteredWatchedFilms.reduce(function (sum, current) {
+    const filmDuration = this._filteredWatchedFilms.reduce((sum, current) => {
       return sum + current.runTime;
     }, 0);
 

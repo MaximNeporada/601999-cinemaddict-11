@@ -92,7 +92,7 @@ export class MainNavigation extends AbstractComponent {
 
   setFilterChangeStatisticHandler(handler) {
     const statisticLinks = this.getElement().querySelector(`.main-navigation__additional`);
-    statisticLinks.addEventListener(`click`, function (evt) {
+    statisticLinks.addEventListener(`click`, (evt) => {
       evt.preventDefault();
       if (evt.target.tagName !== `A`) {
         return;
