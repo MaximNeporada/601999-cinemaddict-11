@@ -12,14 +12,6 @@ import {removeComponent, render} from "../utils/render";
 const FILMS_LIST = {
   CARD_COUNT_ON_START: 5,
   SHOWING_COUNT_BY_BUTTON: 5,
-  TOP_RATING: {
-    title: `Top rated`,
-    id: `top-rating`
-  },
-  TOP_COMMENTS: {
-    title: `Most commented`,
-    id: `top-comments`,
-  },
 };
 
 const getSortedFilms = (films, sortType, from, to) => {
