@@ -215,7 +215,7 @@ export class MovieController {
           this._commentController.updateComments();
           const indexOldComment = this._comments.indexOf(oldComment.comment.id);
           if (indexOldComment !== -1) {
-            this._comments =  [].concat(this._comments.slice(0, indexOldComment), this._comments.slice(indexOldComment + 1));
+            this._comments = [].concat(this._comments.slice(0, indexOldComment), this._comments.slice(indexOldComment + 1));
           }
         })
         .catch(() => {
