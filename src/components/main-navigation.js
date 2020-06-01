@@ -1,4 +1,3 @@
-//  компонент Меню (фильтры и статистика);
 import {AbstractComponent} from "./abstract-component";
 
 const filtersName = [

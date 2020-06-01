@@ -1,4 +1,3 @@
-// компонент Подробной информации о фильме (попап)
 import {AbstractSmartComponent} from "./abstract-smart-component";
 import {CONTROL_BUTTON} from './../const';
 import {formatRunTime, getStringArray} from '../utils/common';

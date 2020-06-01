@@ -1,9 +1,3 @@
-//  компонент Звание пользователя
-// звание зависит от количества просмотренных фильмов
-// 0 — звание не отображается;
-// от 1 до 10 — novice;
-// от 11 до 20 — fan;
-// от 21 и выше — movie buff;*/
 import {AbstractComponent} from "./abstract-component";
 
 export const getProfileRaiting = (filmsCountWatched) => {

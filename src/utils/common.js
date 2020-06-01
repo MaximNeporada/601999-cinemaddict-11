@@ -20,20 +20,6 @@ const getRandomArrayItem = (arr) => {
   return ``;
 };
 
-// функция возвращает рандомный массив с заданной или той же длины
-const getRandomArray = (arr, lengthNewArr) => {
-  let newArr = arr ? [...arr] : [];
-
-  for (let i = newArr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
-  }
-
-  newArr = typeof lengthNewArr === `undefined` ? newArr : newArr.slice(0, lengthNewArr);
-
-  return newArr;
-};
-
 // функция возвращает принимает число и возвращает строку из двух цифр, к пример пришло 9 возвращает 09;
 const castTimeFormat = (value) => {
   return String(value).padStart(2, `0`);
@@ -67,43 +53,6 @@ const getStringArray = (arr, symbolConcat = `, `) => {
   return string;
 };
 
-// функция нахождения топ 2 фильма по рейтингу
-// принимает список фильмов, возвращает список из 2 фильмов
-const getTop2FilmsByRating = (arrayFilms) => {
-  const newArrayFilms = [...arrayFilms];
-  // сортировка списка фильмов по рейтингу от меньшего к большему
-  let sortArrayFilmsRaiting = newArrayFilms.sort((firstItem, secondItem) => {
-    return parseFloat(firstItem.rating) - parseFloat(secondItem.rating);
-  });
-
-  return sortArrayFilmsRaiting.splice(newArrayFilms.length - 2, newArrayFilms.length);
-};
-
-
-// функция нахождения топ 2 фильма по количеству комментариев
-// принимает список фильмов, возвращает список из 2 фильмов
-const getTop2FilmsByComments = (arrayFilms) => {
-  const newArrayFilms = [...arrayFilms];
-  // сортировка списка фильмов по рейтингу от меньшего к большему
-  let sortArrayFilmsСcomments = newArrayFilms.sort((firstItem, secondItem) => {
-    const countCommentsFirstItem = firstItem.comments.length;
-    const countCommentsSecondItem = secondItem.comments.length;
-    return countCommentsFirstItem - countCommentsSecondItem;
-  });
-
-  return sortArrayFilmsСcomments.splice(newArrayFilms.length - 2, newArrayFilms.length);
-};
-
-// создание рандомной даты в формате MM-DD-YYYY
-
-const getRandomDate = (yearStart = 1900) => {
-  let date = new Date();
-  const day = getRandomInteger(1, 31);
-  const month = getRandomInteger(1, 12);
-  const year = getRandomInteger(yearStart, date.getFullYear());
-  return getStringFormatDate(day, month, year);
-};
-
 const shakeAnimation = (element) => {
   const SHAKE_ANIMATION_TIMEOUT = 600;
 
@@ -118,13 +67,9 @@ export {
   formatRunTime,
   getRandomInteger,
   getRandomArrayItem,
-  getRandomArray,
   castTimeFormat,
   getStringFormatDate,
   getStringArray,
-  getTop2FilmsByRating,
-  getTop2FilmsByComments,
-  getRandomDate,
   shakeAnimation,
 };
 

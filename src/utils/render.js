@@ -1,4 +1,3 @@
-// функция создания DOM элемент из шаблона, на входе шаблон элемента, возвращает DOM элемент
 const RenderPosition = {
   AFTERBEGIN: `afterbegin`,
   BEFOREEND: `beforeend`,

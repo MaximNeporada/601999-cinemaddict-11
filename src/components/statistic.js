@@ -41,7 +41,7 @@ const getMapGenreCount = (films) => {
   });
 
   const genreCount = [];
-  for (let genreKey of genresAll.keys()) {
+  for (const genreKey of genresAll.keys()) {
     const objGenre = {
       genre: genreKey,
       count: genresAll.get(genreKey)

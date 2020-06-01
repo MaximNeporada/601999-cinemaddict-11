@@ -60,7 +60,6 @@ export class PageController {
     this._showingFilmsCount = FILMS_LIST.CARD_COUNT_ON_START;
     this._showedFilmControllers = [];
 
-
     this._statisticComponent = null;
 
     this._sortComponent = new Sort();
@@ -69,8 +68,6 @@ export class PageController {
     this._loadingComponent = new LoadingComponent();
     this._filmsListComponent = new FilmsList();
     this._showMoreComponent = new FilmsShowMore();
-    // this._topRatedComponent = new FilmsListExtra(FILMS_LIST.TOP_RATING);
-    // this._topCommentsComponent = new FilmsListExtra(FILMS_LIST.TOP_COMMENTS);
 
     this._filmListContainerElement = this._filmsListComponent.getElement().querySelector(`.films-list__container`);
 
