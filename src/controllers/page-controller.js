@@ -125,7 +125,7 @@ export class PageController {
         const controllerTypes = [this._showedFilmControllers];
         if (isSuccess) {
           controllerTypes.forEach((controllerType) => this._renderControllerNewData(controllerType, idData, newData));
-          this._statisticComponent.rerender(this._movieModel.getMoviesAll());
+          this._updateFilms(this._showingFilmsCount);
           this._checkFilterActive();
           this._siteFooterStatistics.textContent = this._movieModel.getMoviesAll().length;
         }

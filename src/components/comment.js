@@ -1,5 +1,5 @@
 import {AbstractSmartComponent} from "./abstract-smart-component";
-import {encode} from "he";
+import {decode} from "he";
 import moment from "moment";
 import {shakeAnimation} from "../utils/common";
 
@@ -13,16 +13,14 @@ const commentsListMarkup = (comment) => {
     }
     return ``;
   };
-
-  const text = currentText ? encode(currentText) : ``;
-
+  const text = currentText ? currentText.toString() : ``;
   return (
     `<li class="film-details__comment">
             <span class="film-details__comment-emoji">
               ${imageEmoji(emoji)}
             </span>
             <div>
-              <p class="film-details__comment-text">${text ? text : ``}</p>
+              <p class="film-details__comment-text">${text}</p>
               <p class="film-details__comment-info">
                 <span class="film-details__comment-author">${name}</span>
                 <span class="film-details__comment-day">${dateString}</span>

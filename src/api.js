@@ -1,4 +1,4 @@
-import Comment from "./models/comment.js";
+import CommentModel from "./models/comment.js";
 import FilmModel from "./models/movie";
 
 const Method = {
@@ -43,7 +43,7 @@ const API = class {
   getComments(id) {
     return this._load({url: `comments/${id}`})
       .then((response) => response.json())
-      .then(Comment.parseComments);
+      .then(CommentModel.parseComments);
   }
 
   createComment(id, data) {
@@ -55,7 +55,7 @@ const API = class {
     })
       .then((response) => response.json())
       .then((film) => {
-        return Comment.parseComments(film.comments);
+        return CommentModel.parseComments(film.comments);
       });
   }
 

@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export default class Comment {
+export default class CommentModel {
   constructor(data) {
     this.id = data[`id`] ? data[`id`] : null;
     this.name = data[`author`] ? data[`author`] : ``;
@@ -10,18 +10,10 @@ export default class Comment {
   }
 
   static parseComment(data) {
-    return new Comment(data);
+    return new CommentModel(data);
   }
 
   static parseComments(data) {
-    return data.map(Comment.parseComment);
-  }
-
-  toRAW() {
-    return {
-      name: this.name,
-      date: this.date.toISOString(),
-      emotion: this.emoji,
-    };
+    return data.map(CommentModel.parseComment);
   }
 }

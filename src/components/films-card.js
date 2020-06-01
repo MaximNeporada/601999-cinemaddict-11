@@ -6,10 +6,10 @@ import {MAX_CARD_DESCRIPTION_LENGTH, CONTROL_BUTTON} from "./../const";
 
 // получаем обрезанную строку если строка > MAX_CARD_DESCRIPTION_LENGTH
 const getShortDescription = (description) => {
-  if (description > MAX_CARD_DESCRIPTION_LENGTH) {
+  if (description.length > MAX_CARD_DESCRIPTION_LENGTH) {
     const symbolEllipsis = `…`;
     const lengthString = MAX_CARD_DESCRIPTION_LENGTH - 1;
-    return `${description.splice(0, lengthString)}${symbolEllipsis}`;
+    return `${description.slice(0, lengthString)}${symbolEllipsis}`;
   }
 
   return description;
