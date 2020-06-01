@@ -20,22 +20,6 @@ const getRandomArrayItem = (arr) => {
   return ``;
 };
 
-// функция возвращает принимает число и возвращает строку из двух цифр, к пример пришло 9 возвращает 09;
-const castTimeFormat = (value) => {
-  return String(value).padStart(2, `0`);
-};
-
-// функция возврощает строку Даты в формате MM-DD-YYYY и валидирует на высокосный год и февраль для создания даты
-const getStringFormatDate = (day, month, year) => {
-  let dayInt = parseInt(day, 10);
-  const monthInt = parseInt(month, 10);
-  const yearInt = parseInt(year, 10);
-  if (monthInt === 2 && dayInt > 28) {
-    dayInt = yearInt % 4 === 0 ? 29 : 28;
-  }
-  return `${castTimeFormat(monthInt)}-${castTimeFormat(dayInt)}-${yearInt}`;
-};
-
 // функция возвращает строку с элементами массива через ,
 const getStringArray = (arr, symbolConcat = `, `) => {
   let string = ``;
@@ -67,8 +51,6 @@ export {
   formatRunTime,
   getRandomInteger,
   getRandomArrayItem,
-  castTimeFormat,
-  getStringFormatDate,
   getStringArray,
   shakeAnimation,
 };
