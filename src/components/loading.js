@@ -1,8 +1,14 @@
-import AbstractComponent from "./abstractComponent.js";
+import {AbstractComponent} from "./abstract-component";
 
-const createLoadingTemplate = () => `<h2 class="films-list__title">Loading...</h2>`;
+const createLoadingTemplate = () => {
+  return (
+    `<section class="films-list">
+        <h2 class="films-list__title">Loading...</h2>
+      </section>`
+  );
+};
 
-export default class Loading extends AbstractComponent {
+export class LoadingComponent extends AbstractComponent {
   getTemplate() {
     return createLoadingTemplate();
   }

@@ -1,6 +1,7 @@
 import {Films} from "../components/films";
 import {FilmsList} from "../components/films-list";
 import {FilmsShowMore} from "../components/button-show-more";
+import {LoadingComponent} from "../components/loading";
 import {MovieController} from "./movie-controller";
 import {NoFilms} from "../components/no-films";
 import {Sort, SortType} from "../components/sort";
@@ -65,6 +66,7 @@ export class PageController {
     this._sortComponent = new Sort();
     this._filmsComponent = new Films();
     this._noFilmsComponent = new NoFilms();
+    this._loadingComponent = new LoadingComponent();
     this._filmsListComponent = new FilmsList();
     this._showMoreComponent = new FilmsShowMore();
     // this._topRatedComponent = new FilmsListExtra(FILMS_LIST.TOP_RATING);
@@ -190,15 +192,22 @@ export class PageController {
     const allFilms = this._movieModel.getMoviesAll();
 
     this._statisticComponent = new StatisticComponent(allFilms);
-
     render(this._container, this._sortComponent);
     render(this._container, this._filmsComponent);
 
-    if (films.length === 0) {
+    if (!films) {
+      render(this._filmsComponent.getElement(), this._loadingComponent);
+      this._siteFooterStatistics.textContent = ``;
+      return;
+    } else if (films.length === 0) {
+      removeComponent(this._loadingComponent);
       render(this._filmsComponent.getElement(), this._noFilmsComponent);
+      this._siteFooterStatistics.textContent = 0;
       return;
     }
 
+    removeComponent(this._loadingComponent);
+    removeComponent(this._noFilmsComponent);
     render(this._filmsComponent.getElement(), this._filmsListComponent);
     this._renderFilms(films.slice(0, this._showingFilmsCount));
     this._renderShowMoreButton();

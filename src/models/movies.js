@@ -3,7 +3,7 @@ import {FilterType} from "../const";
 
 export class MoviesModel {
   constructor() {
-    this._movies = [];
+    this._movies = ``;
     this._activeFilterType = FilterType.ALL;
 
     this._dataChangeHandlers = [];
