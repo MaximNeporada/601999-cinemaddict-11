@@ -162,7 +162,6 @@ export class PageController {
     this._showingFilmsCount = FILMS_LIST.CARD_COUNT_ON_START;
     const sortedFilms = getSortedFilms(this._movieModel.getMovies(), sortType, 0, this._showingFilmsCount);
 
-
     removeComponent(this._showMoreComponent);
     this._removeFilms();
     this._renderFilms(sortedFilms);
@@ -187,7 +186,7 @@ export class PageController {
         const controllerTypes = [this._showedFilmControllers];
         if (isSuccess) {
           controllerTypes.forEach((controllerType) => this._renderControllerNewData(controllerType, idData, newData));
-          // this._updateFilms(this._showingFilmsCount);
+          this._updateFilms(this._showingFilmsCount);
           this._checkFilterActive();
           this._siteFooterStatistics.textContent = this._movieModel.getMoviesAll().length;
         }

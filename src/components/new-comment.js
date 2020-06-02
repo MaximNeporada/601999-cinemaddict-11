@@ -80,6 +80,7 @@ export class NewComment extends AbstractSmartComponent {
     radioButton.forEach((button) => {
       button.removeAttribute(`disabled`);
     });
+
     textArea.removeAttribute(`disabled`);
     textArea.style.borderWidth = `0px`;
     textArea.style.borderColor = `transparent`;
