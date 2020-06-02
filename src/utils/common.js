@@ -12,7 +12,7 @@ const getRandomInteger = (min, max) => {
 // функция возвращает рандомный элемент из массива
 const getRandomArrayItem = (arr) => {
   if (arr) {
-    const randomIndex = arr.length > 1 ? getRandomInteger(0, arr.length - 1) : arr[0];
+    const randomIndex = arr.length > 1 ? getRandomInteger(0, arr.length - 1) : 0;
 
     return arr[randomIndex] || ``;
   }
