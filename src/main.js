@@ -5,8 +5,7 @@ import {ProfileController} from "./controllers/profile-controller";
 import API from "./api";
 
 const AUTHORIZATION = `Basic asdiu124iad123`;
-const END_POINT = `https://11.ecmascript.pages.academy`;
-  // `https://11.ecmascript.pages.academy/cinemaddict`;
+const END_POINT = `https://11.ecmascript.pages.academy/cinemaddict`;
 
 const siteHeaderElement = document.querySelector(`.header`);
 const siteMainElement = document.querySelector(`.main`);
